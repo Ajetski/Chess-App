@@ -2,7 +2,8 @@
  * Board
  */
 .cg-wrap {
-  background-image: url('../images/board/blue.svg');
+  background-image: url('../images/board/blue2.jpg');
+  background-size:100% 100%;
 }
 
 .cg-wrap piece.pawn.white {
