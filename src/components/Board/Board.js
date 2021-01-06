@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chessground } from 'chessground';
+import { toDests, playOtherSide } from '../../utils';
 import './styles/chessground.css';
 import './styles/theme.css';
 const Chess = require('chess.js');
@@ -21,30 +22,21 @@ export default class Board extends React.Component {
 		);
 	}
 
-	toDests() {
-		const dests = new Map();
-		this.chess.SQUARES.forEach(s => {
-			const ms = this.chess.moves({ square: s, verbose: true });
-			if (ms.length) dests.set(s, ms.map(m => m.to));
-		});
-		return dests;
-	}
-
-	toColor() {
-		return (this.chess.turn() === 'w') ? 'white' : 'black';
-	}
-
 	componentDidMount() {
-		this.api = Chessground(this.boardRef, {
+		this.cg = Chessground(this.boardRef, {
 			movable: {
-				color: 'both',
+				color: 'white',
 				free: false,
-				dests: this.toDests(),
+				dests: toDests(this.chess),
 			},
 			draggable: {
 				showGhost: true
 			}
 		});
+		this.cg.set({
+			movable: { events: { after: playOtherSide(this.cg, this.chess) } }
+		});
+
 	}
 }
 
