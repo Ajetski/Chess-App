@@ -49,6 +49,6 @@ export default class Board extends React.Component {
 }
 
 Board.defaultProps = {
-	width: '720',
-	height: '720'
+	width: '720px',
+	height: '720px'
 };
