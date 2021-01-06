@@ -36,7 +36,7 @@ export default class Board extends React.Component {
 		this.cg.set({
 			movable: { events: { after: playOtherSide(this.cg, this.chess) } }
 		});
-
+		document.getElementsByClassName('cg-wrap').item(0).classList.add('blue2');
 	}
 }
 

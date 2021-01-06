@@ -1,8 +1,13 @@
 /*
  * Board
  */
-.cg-wrap {
+.cg-wrap.blue2 {
   background-image: url('../images/board/blue2.jpg');
+  background-size:100% 100%;
+}
+
+.cg-wrap.purple-diag {
+  background-image: url('../images/board/purple-diag.png');
   background-size:100% 100%;
 }
 
