@@ -3,11 +3,10 @@ import BoardSettings from '../BoardSettings/BoardSettings'
 
 function App() {
 	return (
-		<>
-			<p>App component works!</p>
+		<div className="ml-4 mt-4">
 			<Board />
 			<BoardSettings />
-		</>
+		</div>
 	);
 }
 

@@ -1,6 +1,11 @@
 /*
  * Board
  */
+.cg-wrap.blue {
+  background-image: url('../images/board/blue.svg');
+  background-size:100% 100%;
+}
+
 .cg-wrap.blue2 {
   background-image: url('../images/board/blue2.jpg');
   background-size:100% 100%;
