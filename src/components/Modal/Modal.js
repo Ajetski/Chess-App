@@ -4,6 +4,8 @@ export function ModalOpenButton(props) {
 			className={props.className}
 			style={props.style}
 			disabled={props.disabled}
+			onClick={props.onClick}
+			data-id={props['data-id']}
 			data-bs-toggle="modal"
 			data-bs-target={`#${props.id}`}>
 			{props.children}
