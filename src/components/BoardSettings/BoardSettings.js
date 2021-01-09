@@ -5,7 +5,7 @@ import './BoardSettings.css'
 function BoardTheme(props) {
 	const active = props.currentTheme === props.id;
 	return (
-		<li>
+		<div className="row my-2 ml-5">
 			<ModalCloseButton
 				className={`btn btn-${active ? 'primary' : 'secondary'}`}
 				disabled={active}
@@ -13,7 +13,7 @@ function BoardTheme(props) {
 				data-id={props.id}>
 				{props.name}
 			</ModalCloseButton>
-		</li>
+		</div>
 	);
 }
 
@@ -44,23 +44,21 @@ export default function BoardSettings() {
 				</ModalHeader>
 				<ModalBody>
 					<p>Select a board:</p>
-					<ul>
-						<BoardTheme name="Blue"
-							id="blue"
-							handleClick={changeTheme}
-							currentTheme={theme}
-						/>
-						<BoardTheme name="Blue 2"
-							id="blue2"
-							handleClick={changeTheme}
-							currentTheme={theme}
-						/>
-						<BoardTheme name="Purple Diag"
-							id="purple-diag"
-							handleClick={changeTheme}
-							currentTheme={theme}
-						/>
-					</ul>
+					<BoardTheme name="Blue"
+						id="blue"
+						handleClick={changeTheme}
+						currentTheme={theme}
+					/>
+					<BoardTheme name="Blue 2"
+						id="blue2"
+						handleClick={changeTheme}
+						currentTheme={theme}
+					/>
+					<BoardTheme name="Purple Diag"
+						id="purple-diag"
+						handleClick={changeTheme}
+						currentTheme={theme}
+					/>
 				</ModalBody>
 				<ModalFooter>
 					<ModalCloseButton className="btn btn-danger">Close</ModalCloseButton>
