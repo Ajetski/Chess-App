@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../Modal/Modal';
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalOpenButton, ModalTitle, ModalCloseButton } from '../Modal/Modal';
 import './BoardSettings.css'
 
 function BoardTheme(props) {
 	const active = props.currentTheme === props.id;
 	return (
-		<li onClick={props.handleClick} data-id={props.id}>
-			<button type="button"
+		<li>
+			<ModalCloseButton
 				className={`btn btn-${active ? 'primary' : 'secondary'}`}
-				data-bs-dismiss="modal"
-				disabled={active}>
+				disabled={active}
+				onClick={props.handleClick}
+				data-id={props.id}>
 				{props.name}
-			</button>
+			</ModalCloseButton>
 		</li>
 	);
 }
@@ -24,7 +25,6 @@ export default function BoardSettings() {
 		const newTheme = e.currentTarget.dataset.id;
 		for (let i = 0; i < boards.length; i++) {
 			const board = boards.item(i);
-			console.log(board.classList);
 			board.classList.remove(theme);
 			board.classList.add(newTheme);
 		}
@@ -33,9 +33,11 @@ export default function BoardSettings() {
 
 	return (
 		<div className='settingsBox m-3'>
-			<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal">
+			<ModalOpenButton
+				className="btn btn-primary"
+				id="settingsModal">
 				Settings
-			</button>
+			</ModalOpenButton>
 			<Modal id="settingsModal">
 				<ModalHeader>
 					<ModalTitle>Board Settings</ModalTitle>
@@ -61,7 +63,7 @@ export default function BoardSettings() {
 					</ul>
 				</ModalBody>
 				<ModalFooter>
-					<button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<ModalCloseButton className="btn btn-danger">Close</ModalCloseButton>
 				</ModalFooter>
 			</Modal>
 		</div>

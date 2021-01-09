@@ -1,10 +1,29 @@
-/*
-* To open the modal, use a button with attributes:
-* data-bs-toggle="modal" data-bs-target="#ID"
-*
-* To dismiss the modal, use a button with attribute:
-* data-bs-dismiss="modal"
-*/
+export function ModalOpenButton(props) {
+	return (
+		<button type="button"
+			className={props.className}
+			style={props.style}
+			disabled={props.disabled}
+			data-bs-toggle="modal"
+			data-bs-target={`#${props.id}`}>
+			{props.children}
+		</button>
+	);
+}
+
+export function ModalCloseButton(props) {
+	return (
+		<button type="button"
+			className={props.className}
+			style={props.style}
+			disabled={props.disabled}
+			onClick={props.onClick}
+			data-id={props['data-id']}
+			data-bs-dismiss="modal">
+			{props.children}
+		</button>
+	);
+}
 
 export function ModalHeader(props) {
 	return (
@@ -38,7 +57,7 @@ export function ModalFooter(props) {
 	);
 }
 
-export default function Modal(props) {
+export function Modal(props) {
 
 	return (
 		<div className="modal" tabIndex="-1" id={props.id}>
