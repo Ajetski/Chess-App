@@ -35,7 +35,7 @@ export default function BoardSettings() {
 		<div className='settingsBox m-3'>
 			<ModalOpenButton
 				className="btn btn-primary"
-				id="settingsModal">
+				modal-id="settingsModal">
 				Settings
 			</ModalOpenButton>
 			<Modal id="settingsModal">

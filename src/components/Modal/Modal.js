@@ -1,13 +1,10 @@
 export function ModalOpenButton(props) {
+	console.log(props, props['modal-id'])
 	return (
 		<button type="button"
-			className={props.className}
-			style={props.style}
-			disabled={props.disabled}
-			onClick={props.onClick}
-			data-id={props['data-id']}
+			{...props}
 			data-bs-toggle="modal"
-			data-bs-target={`#${props.id}`}>
+			data-bs-target={`#${props['modal-id']}`}>
 			{props.children}
 		</button>
 	);
@@ -16,11 +13,7 @@ export function ModalOpenButton(props) {
 export function ModalCloseButton(props) {
 	return (
 		<button type="button"
-			className={props.className}
-			style={props.style}
-			disabled={props.disabled}
-			onClick={props.onClick}
-			data-id={props['data-id']}
+			{...props}
 			data-bs-dismiss="modal">
 			{props.children}
 		</button>
