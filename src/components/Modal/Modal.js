@@ -1,5 +1,4 @@
 export function ModalOpenButton(props) {
-	console.log(props, props['modal-id'])
 	return (
 		<button type="button"
 			{...props}
