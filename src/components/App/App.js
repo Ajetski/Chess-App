@@ -2,7 +2,7 @@ import Board from '../Board/Board';
 import BoardSettings from '../BoardSettings/BoardSettings';
 import './App.css';
 
-function App() {
+export default function App() {
 	return (
 		<div className="app">
 			<div className="middle mx-auto mt-5">
@@ -12,5 +12,3 @@ function App() {
 		</div>
 	);
 }
-
-export default App;
