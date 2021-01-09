@@ -5,3 +5,7 @@ ul {
 li {
 	margin-top: 1rem;
 }
+
+.settingsBox {
+	width: fit-content;
+}

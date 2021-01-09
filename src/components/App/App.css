@@ -1,0 +1,9 @@
+.app {
+	width: 100%;
+	text-align: center;
+	margin: auto;
+}
+
+.middle {
+	width: fit-content;
+}

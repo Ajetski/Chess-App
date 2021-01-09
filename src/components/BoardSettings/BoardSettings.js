@@ -32,7 +32,7 @@ export default function BoardSettings() {
 	}
 
 	return (
-		<div className='settingsBox m-3'>
+		<div className='settingsBox mt-4'>
 			<ModalOpenButton
 				className="btn btn-primary"
 				modal-id="settingsModal">

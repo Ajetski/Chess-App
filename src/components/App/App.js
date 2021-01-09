@@ -1,11 +1,14 @@
 import Board from '../Board/Board';
-import BoardSettings from '../BoardSettings/BoardSettings'
+import BoardSettings from '../BoardSettings/BoardSettings';
+import './App.css';
 
 function App() {
 	return (
-		<div className="ml-4 mt-4">
-			<Board />
-			<BoardSettings />
+		<div className="app">
+			<div className="middle mx-auto mt-5">
+				<Board />
+				<BoardSettings />
+			</div>
 		</div>
 	);
 }
