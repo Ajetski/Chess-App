@@ -18,7 +18,7 @@ function BoardTheme(props) {
 }
 
 export default function BoardSettings() {
-	const [theme, setTheme] = useState('blue2')
+	const [theme, setTheme] = useState('blue2');
 
 	const changeTheme = (e) => {
 		const boards = document.getElementsByClassName('cg-wrap');
@@ -32,7 +32,7 @@ export default function BoardSettings() {
 	}
 
 	return (
-		<div className='settingsBox mt-4'>
+		<div className="settingsBox mt-4">
 			<ModalOpenButton
 				className="btn btn-primary"
 				modal-id="settingsModal">

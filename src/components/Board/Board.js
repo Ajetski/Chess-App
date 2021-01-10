@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { Chessground } from 'chessground';
-import { toDests, toColor, playOtherSide } from '../../utils';
+import { toDests, toColor, playOtherSide, copyChess } from '../../utils';
 import './styles/chessground.css';
 import './styles/theme.css';
 const Chess = require('chess.js');
@@ -9,8 +9,8 @@ const Chess = require('chess.js');
 export default function Board(props) {
 
 	const [chess, setChess] = useState(new Chess());
+	const [cg, setCg] = useState();
 	const [boardRef, setBoardRef] = useState();
-	const [_, setBoard] = useState();
 
 	useEffect(() => {
 		if (boardRef) {
@@ -25,13 +25,32 @@ export default function Board(props) {
 					showGhost: true
 				},
 				fen: chess.fen()
-			})
+			});
 			api.set({
 				movable: { events: { after: playOtherSide(api, chess, setChess) } }
 			});
+			setCg(() => api);
 			document.getElementsByClassName('cg-wrap').item(0).classList.add('blue2');
 		}
-	}, [boardRef, _]);
+	}, [boardRef]);
+
+	useEffect(() => {
+		if (cg) {
+			cg.set({
+				turnColor: toColor(chess),
+				movable: {
+					color: toColor(chess),
+					free: false,
+					dests: toDests(chess),
+					events: { after: playOtherSide(cg, chess, setChess) }
+				},
+				draggable: {
+					showGhost: true
+				},
+				fen: chess.fen()
+			});
+		}
+	}, [chess])
 
 	return (
 		<>
@@ -41,22 +60,19 @@ export default function Board(props) {
 					height: props.height
 				}}>
 			</div>
-			<p className="mt-4">
+			<div className="mt-3 mb-2">
 				{chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
-					<span key={row}>{row}<br /></span>
+					<div key={row}>{row}</div>
 				)) || 'No moves have been played...'}
-				<br />
 				{chess.fen()}
-			</p>
+			</div>
 			<div className="btn-group">
 				<button type="button"
 					className="btn btn-secondary "
 					onClick={() => {
-						const newChess = new Chess();
-						newChess.load_pgn(chess.pgn());
-						newChess.undo();
-						setChess(() => newChess);
-						setBoard(() => setBoard(() => Math.random()));
+						const copy = copyChess(chess);
+						copy.undo();
+						setChess(() => copy);
 					}}>
 					Takeback
 				</button>
@@ -64,7 +80,6 @@ export default function Board(props) {
 					className="btn btn-danger"
 					onClick={() => {
 						setChess(() => new Chess());
-						setBoard(() => setBoard(() => Math.random()));
 					}}>
 					Reset
 				</button>
