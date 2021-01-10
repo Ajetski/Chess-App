@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { Chessground } from 'chessground';
-import { toDests, toColor, playOtherSide, copyChess } from '../../utils';
+import { toDests, toColor, copyChess } from '../../utils';
 import './styles/chessground.css';
 import './styles/theme.css';
 const Chess = require('chess.js');
@@ -20,14 +20,18 @@ export default function Board(props) {
 					color: toColor(chess),
 					free: false,
 					dests: toDests(chess),
+					events: {
+						after: (orig, dest) => {
+							chess.move({ from: orig, to: dest });
+							const copy = copyChess(chess);
+							setChess(() => copy);
+						}
+					}
 				},
 				draggable: {
 					showGhost: true
 				},
 				fen: chess.fen()
-			});
-			api.set({
-				movable: { events: { after: playOtherSide(api, chess, setChess) } }
 			});
 			setCg(() => api);
 			document.getElementsByClassName('cg-wrap').item(0).classList.add('blue2');
@@ -40,12 +44,7 @@ export default function Board(props) {
 				turnColor: toColor(chess),
 				movable: {
 					color: toColor(chess),
-					free: false,
 					dests: toDests(chess),
-					events: { after: playOtherSide(cg, chess, setChess) }
-				},
-				draggable: {
-					showGhost: true
 				},
 				fen: chess.fen()
 			});

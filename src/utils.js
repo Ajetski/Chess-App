@@ -14,14 +14,9 @@ export function toColor(chess) {
 
 }
 
-export function playOtherSide(cg, chess, setChess) {
+export function playOtherSide(cg, chess) {
 	return (orig, dest) => {
 		chess.move({ from: orig, to: dest });
-		if (setChess) {
-			const newChess = new Chess();
-			newChess.load_pgn(chess.pgn());
-			setChess(() => newChess);
-		}
 		cg.set({
 			turnColor: toColor(chess),
 			movable: {
