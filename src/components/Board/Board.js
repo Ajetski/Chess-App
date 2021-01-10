@@ -6,7 +6,6 @@ import { toDests, toColor, copyChess } from '../../utils';
 import setChessRedux from '../../actions/chessActions';
 import './styles/chessground.css';
 import './styles/theme.css';
-const Chess = require('chess.js');
 
 function Board(props) {
 
@@ -47,7 +46,7 @@ function Board(props) {
 			cg.set(config);
 		}
 		props.dispatch(setChessRedux({ chess }));
-	}, [chess])
+	}, [chess, props.chess])
 
 	return (
 		<>
@@ -56,24 +55,6 @@ function Board(props) {
 					width: props.width,
 					height: props.height
 				}}>
-			</div>
-			<div className="btn-group mt-3">
-				<button type="button"
-					className="btn btn-secondary "
-					onClick={() => {
-						chess.undo();
-						const copy = copyChess(chess);
-						setChess(() => copy);
-					}}>
-					Takeback
-				</button>
-				<button type="button"
-					className="btn btn-danger"
-					onClick={() => {
-						setChess(() => new Chess());
-					}}>
-					Reset
-				</button>
 			</div>
 		</>
 	);
