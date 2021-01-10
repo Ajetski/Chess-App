@@ -1,3 +1,5 @@
+const Chess = require('chess.js');
+
 export function toDests(chess) {
 	const dests = new Map();
 	chess.SQUARES.forEach(s => {
@@ -12,9 +14,14 @@ export function toColor(chess) {
 
 }
 
-export function playOtherSide(cg, chess) {
+export function playOtherSide(cg, chess, setChess) {
 	return (orig, dest) => {
 		chess.move({ from: orig, to: dest });
+		if (setChess) {
+			const newChess = new Chess();
+			newChess.load_pgn(chess.pgn());
+			setChess(() => newChess);
+		}
 		cg.set({
 			turnColor: toColor(chess),
 			movable: {
@@ -43,4 +50,10 @@ export function aiPlay(cg, chess, delay, firstMove) {
 			cg.playPremove();
 		}, delay);
 	};
+}
+
+export function copyChess(chess) {
+	const copy = new Chess();
+	copy.load_pgn(chess.pgn());
+	return copy;
 }
