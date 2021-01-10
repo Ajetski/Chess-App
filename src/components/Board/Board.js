@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { toDests, toColor, copyChess } from '../../utils';
+import setChessRedux from '../../actions/chessActions';
 import './styles/chessground.css';
 import './styles/theme.css';
 const Chess = require('chess.js');
 
-export default function Board(props) {
+function Board(props) {
 
-	const [chess, setChess] = useState(new Chess());
+	const [chess, setChess] = useState(props.chess);
 	const [cg, setCg] = useState();
 	const [boardRef, setBoardRef] = useState();
 
@@ -44,6 +46,7 @@ export default function Board(props) {
 		if (cg) {
 			cg.set(config);
 		}
+		props.dispatch(setChessRedux({ chess }));
 	}, [chess])
 
 	return (
@@ -54,13 +57,7 @@ export default function Board(props) {
 					height: props.height
 				}}>
 			</div>
-			<div className="mt-3 mb-2">
-				{chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
-					<div key={row}>{row}</div>
-				)) || 'No moves have been played...'}
-				{chess.fen()}
-			</div>
-			<div className="btn-group">
+			<div className="btn-group mt-3">
 				<button type="button"
 					className="btn btn-secondary "
 					onClick={() => {
@@ -86,3 +83,11 @@ Board.defaultProps = {
 	width: '720px',
 	height: '720px'
 };
+
+function mapStateToProps(state, ownProps) {
+	return { ...ownProps, chess: state.chess };
+}
+
+// const mapDispatchToProps = { setChessRedux };
+
+export default connect(mapStateToProps)(Board);
