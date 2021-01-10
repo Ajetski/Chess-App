@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader, ModalOpenButton, ModalTitle, ModalCloseButton } from '../Modal/Modal';
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalOpenButton, ModalTitle, ModalCloseButton } from '../Modal';
 import './BoardSettings.css'
 
 function BoardTheme(props) {

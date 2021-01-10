@@ -12,27 +12,29 @@ export default function Board(props) {
 	const [cg, setCg] = useState();
 	const [boardRef, setBoardRef] = useState();
 
+	const config = {
+		turnColor: toColor(chess),
+		movable: {
+			color: toColor(chess),
+			free: false,
+			dests: toDests(chess),
+			events: {
+				after: (orig, dest) => {
+					chess.move({ from: orig, to: dest });
+					const copy = copyChess(chess);
+					setChess(() => copy);
+				}
+			}
+		},
+		draggable: {
+			showGhost: true
+		},
+		fen: chess.fen()
+	};
+
 	useEffect(() => {
 		if (boardRef) {
-			const api = Chessground(boardRef, {
-				turnColor: toColor(chess),
-				movable: {
-					color: toColor(chess),
-					free: false,
-					dests: toDests(chess),
-					events: {
-						after: (orig, dest) => {
-							chess.move({ from: orig, to: dest });
-							const copy = copyChess(chess);
-							setChess(() => copy);
-						}
-					}
-				},
-				draggable: {
-					showGhost: true
-				},
-				fen: chess.fen()
-			});
+			const api = Chessground(boardRef, config);
 			setCg(() => api);
 			document.getElementsByClassName('cg-wrap').item(0).classList.add('blue2');
 		}
@@ -40,14 +42,7 @@ export default function Board(props) {
 
 	useEffect(() => {
 		if (cg) {
-			cg.set({
-				turnColor: toColor(chess),
-				movable: {
-					color: toColor(chess),
-					dests: toDests(chess),
-				},
-				fen: chess.fen()
-			});
+			cg.set(config);
 		}
 	}, [chess])
 
@@ -69,8 +64,8 @@ export default function Board(props) {
 				<button type="button"
 					className="btn btn-secondary "
 					onClick={() => {
+						chess.undo();
 						const copy = copyChess(chess);
-						copy.undo();
 						setChess(() => copy);
 					}}>
 					Takeback
