@@ -57,12 +57,15 @@ function Board(props) {
 
 		props.engine.onmessage = function (event) {
 			const data = (event.data ? event.data : event).split(' ');
-			console.log(data);
 			if (data[0] === 'info') {
 				const startLineIdx = data.indexOf('pv') + 1;
+				const startEvalIdx = data.indexOf('score') + 1;
+				const colorMultiplier = chess.turn() === 'w' ? 1 : -1;
 				props.dispatch(updateEval({
-					depth: data[2],
-					evaluation: data[data.length - 1],
+					depth: parseInt(data[2]),
+					evaluation: data[startEvalIdx] === 'cp'
+						? colorMultiplier * data[startEvalIdx + 1] / 100
+						: `#${colorMultiplier * data[startEvalIdx + 1]}`,
 					bestmove: data[startLineIdx],
 					line: data.slice(startLineIdx, data.length - 3),
 				}));
