@@ -9,13 +9,13 @@ export default function App() {
 				<p>some header</p>
 			</div>
 			<div className="row">
-				<div className="col-8">
+				<div className="col-xl-8 col-12">
 					<div className="mx-auto" style={{ width: 'fit-content' }}>
 						<Board />
 						<BoardSettings />
 					</div>
 				</div>
-				<div className="col-4">
+				<div className="col-xl-4 mt-3">
 					<GameHistory />
 				</div>
 			</div>
