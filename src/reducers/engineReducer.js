@@ -1,4 +1,13 @@
-export default function chessReducer(state = {}, action) {
+const initialState = {
+	evaluation: 0.00,
+	bestmove: '',
+	line: [],
+	depth: 1,
+	engine: new Worker('stockfish.js'),
+	maxDepth: 18
+}
+
+export default function chessReducer(state = initialState, action) {
 	if (action.type === 'engine/updateEval')
 		return {
 			...state,
