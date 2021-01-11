@@ -5,7 +5,11 @@ import { copyChess } from '../utils';
 function GameHistory({ chess, engine, dispatch }) {
 	return (
 		<>
-			<p>{engine.depth < engine.maxDepth && `Analyzing: Depth ${engine.depth}/${engine.maxDepth}, `}{`Best Move: ${engine.bestmove}, Evaluaiton: ${engine.evaluation}`}</p>
+			<div>
+				<div>{engine.depth < engine.maxDepth && `Analysis: Depth ${engine.depth}/${engine.maxDepth}`}</div>
+				<div>Best Move: {engine.bestmove}</div>
+				<div>Evaluaiton: {Math.round(engine.evaluation * 100) / 100}</div>
+			</div>
 			{chess ?
 				<div className="mt-3 mb-2">
 					{chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
