@@ -36,7 +36,6 @@ function GameHistory({ chess, engine, dispatch }) {
 					{chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
 						<div key={row}>{row}</div>
 					)) || 'No moves have been played...'}
-					{chess.fen()}
 				</div> : <p>chess is undefined</p>
 			}
 			<div className="btn-group mt-3">
