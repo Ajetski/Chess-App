@@ -2,9 +2,10 @@ import { connect } from 'react-redux';
 import setChess from '../actions/chessActions';
 import { copyChess } from '../utils';
 
-function GameHistory({ chess, dispatch }) {
+function GameHistory({ chess, engine, dispatch }) {
 	return (
 		<>
+			<p>{engine.depth < engine.maxDepth && `Analyzing: Depth ${engine.depth}/${engine.maxDepth}, `}{`Best Move: ${engine.bestmove}, Evaluaiton: ${engine.evaluation}`}</p>
 			{chess ?
 				<div className="mt-3 mb-2">
 					{chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
@@ -38,7 +39,10 @@ function GameHistory({ chess, dispatch }) {
 }
 
 function mapStateToProps(state) {
-	return { chess: state.chess };
+	return {
+		chess: state.chess.chess,
+		engine: state.engine
+	};
 }
 
 export default connect(mapStateToProps)(GameHistory)

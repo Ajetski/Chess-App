@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { toDests, toColor, copyChess } from '../../utils';
 import setChessRedux from '../../actions/chessActions';
+import { updateEval } from '../../actions/engineActions';
 import './styles/chessground.css';
 import './styles/theme.css';
 
 function Board(props) {
-
 	const [chess, setChess] = useState(props.chess);
 	const [cg, setCg] = useState();
 	const [boardRef, setBoardRef] = useState();
@@ -42,10 +42,32 @@ function Board(props) {
 	}, [boardRef]);
 
 	useEffect(() => {
+		if (chess === props.chess && chess.history().length > 0)
+			return;
+
 		if (cg) {
 			cg.set(config);
 		}
+
+		//update global state
 		props.dispatch(setChessRedux({ chess }));
+		props.engine.postMessage('stop');
+		props.engine.postMessage(`position fen ${chess.fen()}`);
+		props.engine.postMessage(`go depth ${props.maxDepth}`);
+
+		props.engine.onmessage = function (event) {
+			const data = (event.data ? event.data : event).split(' ');
+			console.log(data);
+			if (data[0] === 'info') {
+				const startLineIdx = data.indexOf('pv') + 1;
+				props.dispatch(updateEval({
+					depth: data[2],
+					evaluation: data[data.length - 1],
+					bestmove: data[startLineIdx],
+					line: data.slice(startLineIdx, data.length - 3),
+				}));
+			}
+		};
 	}, [chess, props.chess])
 
 	return (
@@ -66,9 +88,12 @@ Board.defaultProps = {
 };
 
 function mapStateToProps(state, ownProps) {
-	return { ...ownProps, chess: state.chess };
+	return {
+		...ownProps,
+		chess: state.chess.chess,
+		engine: state.engine.engine,
+		maxDepth: state.engine.maxDepth
+	};
 }
-
-// const mapDispatchToProps = { setChessRedux };
 
 export default connect(mapStateToProps)(Board);
