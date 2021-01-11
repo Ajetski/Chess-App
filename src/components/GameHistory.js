@@ -1,14 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import setChess from '../actions/chessActions';
 import { copyChess } from '../utils';
 
 function GameHistory({ chess, engine, dispatch }) {
+	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
+
+	useEffect(() => {
+		setMaxDepth(() => engine.maxDepth);
+	}, [chess]);
+
+	useEffect(() => {
+		if (maxDepth !== engine.maxDepth)
+			engine.engine.postMessage(`go depth ${engine.depth + 5}`);
+	}, [maxDepth]);
+
 	return (
 		<>
 			<div>
-				<div>{engine.depth < engine.maxDepth && `Analysis: Depth ${engine.depth}/${engine.maxDepth}`}</div>
+				<div>{`Analysis: Depth ${engine.depth}/${maxDepth}`} {
+					engine.depth === maxDepth &&
+					<button
+						className="btn btn-info"
+						onClick={() => setMaxDepth(() => maxDepth + 5)}>
+						+
+					</button>
+				}
+				</div>
 				<div>Best Move: {engine.bestmove}</div>
-				<div>Evaluaiton: {Math.round(engine.evaluation * 100) / 100}</div>
+				<div>Evaluaiton: {engine.evaluation}</div>
 			</div>
 			{chess ?
 				<div className="mt-3 mb-2">
