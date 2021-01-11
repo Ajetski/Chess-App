@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Paper } from '@material-ui/core'
 import setChess from '../actions/chessActions';
 import { copyChess } from '../utils';
 
@@ -31,13 +32,19 @@ function GameHistory({ chess, engine, dispatch }) {
 				<div>Best Move: {engine.bestmove}</div>
 				<div>Evaluaiton: {engine.evaluation}</div>
 			</div>
-			{chess ?
-				<div className="mt-3 mb-2">
-					{chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
-						<div key={row}>{row}</div>
-					)) || 'No moves have been played...'}
-				</div> : <p>chess is undefined</p>
-			}
+			<Paper square>
+				{chess ?
+					<div className="mt-3 mb-2">
+						{chess.history().length > 0 && chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
+							<div key={row} className="row w-100">
+								<div className="col-2">{row.split(' ')[0]}</div>
+								<div className="col-5">{row.split(' ')[1]}</div>
+								<div className="col-5">{row.split(' ')[2] || '...'}</div>
+							</div>
+						))}
+					</div> : <p>chess is undefined</p>
+				}
+			</Paper>
 			<div className="btn-group mt-3">
 				<button type="button"
 					className="btn btn-secondary "
