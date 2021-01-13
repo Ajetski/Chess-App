@@ -37,7 +37,7 @@ function Board(props) {
 		if (boardRef) {
 			const api = Chessground(boardRef, config);
 			setCg(() => api);
-			document.getElementsByClassName('cg-wrap').item(0).classList.add('blue2');
+			document.getElementsByClassName('cg-wrap').item(0).classList.add(localStorage.getItem('board-theme') || 'blue2');
 		}
 	}, [boardRef]);
 

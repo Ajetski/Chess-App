@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalOpenButton, ModalTitle, ModalCloseButton } from '../Modal';
 import './BoardSettings.css'
 
@@ -18,11 +19,11 @@ function BoardTheme(props) {
 }
 
 export default function BoardSettings() {
-	const [theme, setTheme] = useState('blue2');
+	const [theme, setTheme] = useState(localStorage.getItem('board-theme') || 'blue2');
 
-	const changeTheme = (e) => {
+	const changeTheme = (newTheme) => {
+		localStorage.setItem('board-theme', newTheme);
 		const boards = document.getElementsByClassName('cg-wrap');
-		const newTheme = e.currentTarget.dataset.id;
 		for (let i = 0; i < boards.length; i++) {
 			const board = boards.item(i);
 			board.classList.remove(theme);
@@ -30,6 +31,14 @@ export default function BoardSettings() {
 		}
 		setTheme(() => newTheme);
 	}
+	const handleChangeTheme = (e) => {
+		changeTheme(e.currentTarget.dataset.id)
+	}
+
+	useEffect(() => {
+		const localTheme = localStorage.getItem('board-theme');
+		changeTheme(localTheme || 'blue2');
+	}, [])
 
 	return (
 		<div className="settingsBox mt-4">
@@ -46,17 +55,17 @@ export default function BoardSettings() {
 					<p>Select a board:</p>
 					<BoardTheme name="Blue"
 						id="blue"
-						handleClick={changeTheme}
+						handleClick={handleChangeTheme}
 						currentTheme={theme}
 					/>
 					<BoardTheme name="Blue 2"
 						id="blue2"
-						handleClick={changeTheme}
+						handleClick={handleChangeTheme}
 						currentTheme={theme}
 					/>
 					<BoardTheme name="Purple Diag"
 						id="purple-diag"
-						handleClick={changeTheme}
+						handleClick={handleChangeTheme}
 						currentTheme={theme}
 					/>
 				</ModalBody>
