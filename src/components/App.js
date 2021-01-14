@@ -1,24 +1,22 @@
-import Board from './Board';
-import BoardSettings from './BoardSettings';
-import GameHistory from './GameHistory';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Game from './Game';
 
 export default function App() {
 	return (
 		<div className="container">
-			<div className="row">
+			<div className="row">y
 				<p>some header</p>
 			</div>
-			<div className="row">
-				<div className="col-xl-8 col-12">
-					<div className="mx-auto" style={{ width: 'fit-content' }}>
-						<Board />
-						<BoardSettings />
-					</div>
-				</div>
-				<div className="col-xl-4 mt-3">
-					<GameHistory />
-				</div>
-			</div>
+			<Router>
+				<Switch>
+					<Route path="/" exact>
+						<Game />
+					</Route>
+					<Route path="/">
+						<p>NOT FOUND</p>
+					</Route>
+				</Switch>
+			</Router>
 		</div>
 	);
 }
