@@ -5,7 +5,7 @@ import Game from './Game';
 export default function App() {
 	return (
 		<div className="container">
-			<div className="row">y
+			<div className="row">
 				<p>some header</p>
 			</div>
 			<Router>
@@ -13,11 +13,15 @@ export default function App() {
 					<Route path="/" exact>
 						<Game />
 					</Route>
-					{/* Test authenticated */}
+					<Route path="/analysis">
+						<Game />
+					</Route>
+					<Route path="/game/:gameId">
+						<Game />
+					</Route>
 					<GuardedRoute auth={true} path="/allow">
 						<p>authenticated</p>
 					</GuardedRoute>
-					{/* Test not authenticated */}
 					<GuardedRoute auth={false} path="/disallow">
 						<p>not authenticated</p>
 					</GuardedRoute>
