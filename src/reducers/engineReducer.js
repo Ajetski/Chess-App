@@ -7,7 +7,7 @@ const initialState = {
 	maxDepth: 18
 }
 
-export default function chessReducer(state = initialState, action) {
+export default function engineReducer(state = initialState, action) {
 	if (action.type === 'engine/updateEval')
 		return {
 			...state,
