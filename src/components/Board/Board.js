@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
+
 import { toDests, toColor, copyChess } from '../../utils';
 import setChessRedux from '../../actions/chessActions';
 import { updateEval } from '../../actions/engineActions';
@@ -54,6 +55,7 @@ function Board(props) {
 		props.engine.postMessage('stop');
 		props.engine.postMessage(`position fen ${chess.fen()}`);
 		props.engine.postMessage(`go depth ${props.maxDepth}`);
+		// props.engine.postMessage(`go movetime 5000`);
 
 		props.engine.onmessage = function (event) {
 			const data = (event.data ? event.data : event).split(' ');
