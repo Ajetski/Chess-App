@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core'
+
 import setChess from '../actions/chessActions';
 import { copyChess } from '../utils';
 
