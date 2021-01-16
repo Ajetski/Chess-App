@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
+
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalOpenButton, ModalTitle, ModalCloseButton } from '../Modal';
 import './BoardSettings.css'
 
