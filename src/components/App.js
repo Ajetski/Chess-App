@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import GuardedRoute from './GuardedRoute';
 import Game from './Game';
 
