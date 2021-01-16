@@ -1,8 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 
 export default function Game() {
+	const { gameId } = useParams();
+
+	useEffect(() => {
+		if (gameId) {
+			// connect to server for game
+		}
+	}, []);
+
 	return (
 		<div className="row">
 			<div className="col-xl-8 col-12">
