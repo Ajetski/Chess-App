@@ -1,22 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+
+import env from '../env';
+import { connectToGame } from '../ws/actions/gameActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 
-export default function Game() {
+function Game() {
 	const { gameId } = useParams();
 
 	useEffect(() => {
 		if (gameId) {
-			// connect to server for game
+			const ws = new WebSocket(env.apiUrl);
+			ws.onopen = () => {
+				ws.send(connectToGame({ id: gameId }));
+			};
+
+			ws.onmessage = (msg) => {
+				console.log(msg);
+			};
 		}
 	}, []);
 
 	return (
-		<div className="row">
+		<>
 			<div className="col-xl-8 col-12">
 				<div className="mx-auto" style={{ width: 'fit-content' }}>
 					<Board />
@@ -26,6 +37,8 @@ export default function Game() {
 			<div className="col-xl-4 mt-3">
 				<GameHistory />
 			</div>
-		</div>
+		</>
 	);
 }
+
+export default connect()(Game);
