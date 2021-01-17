@@ -17,13 +17,11 @@ import {
 export default function Home() {
 	const [gameId, setGameId] = useState();
 	const history = useHistory();
-
-	console.log(env, env.apiUrl);
+	const [copyText, setCopyText] = useState('Copy Link');
 
 	function handleNewGame() {
 		const ws = new WebSocket(env.apiUrl);
-		ws.onopen = (event) => {
-			console.log(event);
+		ws.onopen = () => {
 			ws.send(newGame());
 		}
 		ws.onmessage = ({ data }) => {
@@ -35,6 +33,11 @@ export default function Home() {
 
 	function hanldeGoToGame() {
 		history.push(`/game/${gameId}`);
+	}
+
+	function copyLink() {
+		navigator.clipboard.writeText(`${env.siteURL}/game/${gameId}`)
+			.then(() => setCopyText('Coppied...'));
 	}
 
 	return (
@@ -54,7 +57,13 @@ export default function Home() {
 				<ModalBody>
 					{gameId ? (
 						<>
-							<p>Send this URL to a friend: {`${env.siteURL}/game/${gameId}`}</p>
+							<p>
+								Send this URL to a friend: {`${env.siteURL}/game/${gameId}`}
+								<button className="btn btn-primary"
+									onClick={copyLink}>
+									{copyText}
+								</button>
+							</p>
 							<ModalCloseButton
 								className="btn btn-primary"
 								onClick={hanldeGoToGame}>
@@ -66,7 +75,8 @@ export default function Home() {
 				</ModalBody>
 				<ModalFooter>
 					<ModalCloseButton
-						className="float-right btn btn-danger">
+						className="float-right btn btn-danger"
+						onClick={() => setCopyText('Copy Link')}>
 						Close
 				</ModalCloseButton>
 				</ModalFooter>
