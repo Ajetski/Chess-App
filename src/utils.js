@@ -1,4 +1,4 @@
-const Chess = require('chess.js');
+import Chess from 'chess.js';
 
 export function toDests(chess) {
 	const dests = new Map();
