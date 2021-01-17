@@ -11,10 +11,9 @@ export function makeMove(payload = {}) {
 	});
 }
 
-export function connect(payload = {}) {
+export function connectToGame(payload = {}) {
 	return JSON.stringify({
 		type: 'game/connect',
 		id: payload.id
 	});
 }
-
