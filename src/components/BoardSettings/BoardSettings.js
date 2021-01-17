@@ -1,7 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 
-import { Modal, ModalBody, ModalFooter, ModalHeader, ModalOpenButton, ModalTitle, ModalCloseButton } from '../Modal';
+import {
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	ModalOpenButton,
+	ModalTitle,
+	ModalCloseButton
+} from '../Modal';
 import './BoardSettings.css'
 
 function BoardTheme(props) {
@@ -31,15 +39,16 @@ export default function BoardSettings() {
 			board.classList.add(newTheme);
 		}
 		setTheme(() => newTheme);
-	}
+	};
+
 	const handleChangeTheme = (e) => {
 		changeTheme(e.currentTarget.dataset.id)
-	}
+	};
 
 	useEffect(() => {
 		const localTheme = localStorage.getItem('board-theme');
 		changeTheme(localTheme || 'blue2');
-	}, [])
+	}, []);
 
 	return (
 		<div className="settingsBox mt-4">
