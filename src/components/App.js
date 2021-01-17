@@ -1,36 +1,44 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch
+} from 'react-router-dom';
 
 import GuardedRoute from './GuardedRoute';
 import Home from './Home';
 import Game from './Game';
+import Navbar from './Navbar';
 
 export default function App() {
 	return (
 		<div className="container">
-			<div className="row">
-				<p>some header</p>
-			</div>
 			<Router>
-				<Switch>
-					<Route path="/" exact>
-						<Home />
-					</Route>
-					<Route path="/analysis">
-						<Game />
-					</Route>
-					<Route path="/game/:gameId">
-						<Game />
-					</Route>
-					<GuardedRoute auth={true} path="/allow">
-						<p>authenticated</p>
-					</GuardedRoute>
-					<GuardedRoute auth={false} path="/disallow">
-						<p>not authenticated</p>
-					</GuardedRoute>
-					<Route path="/">
-						<p>NOT FOUND</p>
-					</Route>
-				</Switch>
+				<div className="row mb-2">
+					<h3 className="my-auto mr-3">Chess App</h3>
+					<Navbar />
+				</div>
+				<div className="row">
+					<Switch>
+						<Route path="/" exact>
+							<Home />
+						</Route>
+						<Route path="/analysis">
+							<Game />
+						</Route>
+						<Route path="/game/:gameId">
+							<Game />
+						</Route>
+						<GuardedRoute auth={true} path="/allow">
+							<p>authenticated</p>
+						</GuardedRoute>
+						<GuardedRoute auth={false} path="/disallow">
+							<p>not authenticated</p>
+						</GuardedRoute>
+						<Route path="/">
+							<p>NOT FOUND</p>
+						</Route>
+					</Switch>
+				</div>
 			</Router>
 		</div>
 	);
