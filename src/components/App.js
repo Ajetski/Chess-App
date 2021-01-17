@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import GuardedRoute from './GuardedRoute';
+import Home from './Home';
 import Game from './Game';
 
 export default function App() {
@@ -12,7 +13,7 @@ export default function App() {
 			<Router>
 				<Switch>
 					<Route path="/" exact>
-						<Game />
+						<Home />
 					</Route>
 					<Route path="/analysis">
 						<Game />
