@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 
 import { toDests, toColor, copyChess } from '../../utils';
-import setChessRedux from '../../actions/chessActions';
+import { setChess as setChessRedux } from '../../actions/chessActions';
 import { updateEval } from '../../actions/engineActions';
 import './styles/chessground.css';
 import './styles/theme.css';
@@ -14,7 +14,10 @@ function Board(props) {
 	const [cg, setCg] = useState();
 	const [boardRef, setBoardRef] = useState();
 
+
+
 	const config = {
+		orientation: props.orientation,
 		turnColor: toColor(chess),
 		movable: {
 			color: toColor(chess),
@@ -73,7 +76,7 @@ function Board(props) {
 				}));
 			}
 		};
-	}, [chess, props.chess])
+	}, [chess, props])
 
 	return (
 		<>
@@ -94,10 +97,11 @@ Board.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		...ownProps,
 		chess: state.chess.chess,
+		orientation: state.chess.orientation,
 		engine: state.engine.engine,
-		maxDepth: state.engine.maxDepth
+		maxDepth: state.engine.maxDepth,
+		...ownProps,
 	};
 }
 
