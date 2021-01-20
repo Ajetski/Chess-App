@@ -9,11 +9,6 @@ import './index.css'
 
 const store = configureStore();
 
-// Log updates to store
-// store.subscribe(state => {
-// 	console.log('Redux state updated: ', state);
-// });
-
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark'
