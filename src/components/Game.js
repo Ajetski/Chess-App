@@ -3,14 +3,15 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-
 import env from '../env';
+import { pgnToChess } from '../utils';
 import { connectToGame } from '../ws/actions/gameActions';
+import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 
-function Game() {
+function Game({ dispatch }) {
 	const { gameId } = useParams();
 
 	useEffect(() => {
@@ -18,10 +19,14 @@ function Game() {
 			const ws = new WebSocket(env.apiUrl);
 			ws.onopen = () => {
 				ws.send(connectToGame({ id: gameId }));
-			};
-
-			ws.onmessage = (msg) => {
-				console.log(msg);
+			}
+			ws.onmessage = ({ data }) => {
+				const action = JSON.parse(data);
+				if (action.type === 'game/connect') {
+					console.log(action);
+					dispatch(setOrientation({ orientation: action.orientation }));
+					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
+				}
 			};
 		}
 	}, []);
@@ -41,4 +46,10 @@ function Game() {
 	);
 }
 
-export default connect()(Game);
+const mapStateToProps = (state, ownProps) => {
+	return {
+		...ownProps
+	};
+}
+
+export default connect(mapStateToProps)(Game);
