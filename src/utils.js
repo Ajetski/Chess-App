@@ -52,3 +52,9 @@ export function copyChess(chess) {
 	copy.load_pgn(chess.pgn());
 	return copy;
 }
+
+export function pgnToChess(pgn) {
+	const copy = new Chess();
+	copy.load_pgn(pgn);
+	return copy;
+}
