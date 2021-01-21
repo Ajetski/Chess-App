@@ -4,16 +4,17 @@ export function newGame() {
 	});
 }
 
-export function makeMove(payload = {}) {
+export function makeMove({ id, move } = {}) {
 	return JSON.stringify({
 		type: 'game/move',
-		pgn: payload.pgn
+		id,
+		move
 	});
 }
 
-export function connectToGame(payload = {}) {
+export function connectToGame({ id } = {}) {
 	return JSON.stringify({
 		type: 'game/connect',
-		id: payload.id
+		id
 	});
 }
