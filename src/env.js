@@ -1,5 +1,5 @@
 const env = {
-	apiUrl: 'ws://localhost:8080',
+	apiUrl: 'ws://localhost:3001',
 	siteURL: 'http://localhost:3000'
 };
 
