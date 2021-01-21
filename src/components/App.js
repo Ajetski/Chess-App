@@ -7,6 +7,7 @@ import {
 import GuardedRoute from './GuardedRoute';
 import Home from './Home';
 import Game from './Game';
+import Analysis from './Analysis';
 import Navbar from './Navbar';
 
 const App = () => (
@@ -22,7 +23,7 @@ const App = () => (
 						<Home />
 					</Route>
 					<Route path="/analysis">
-						<Game />
+						<Analysis />
 					</Route>
 					<Route path="/game/:gameId">
 						<Game />
