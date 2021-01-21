@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -14,9 +14,10 @@ import GameHistory from './GameHistory';
 function Game({ dispatch }) {
 	const { gameId } = useParams();
 
+	const [ws] = useState(new WebSocket(env.apiUrl));
+
 	useEffect(() => {
 		if (gameId) {
-			const ws = new WebSocket(env.apiUrl);
 			ws.onopen = () => {
 				ws.send(connectToGame({ id: gameId }));
 			}
@@ -28,6 +29,9 @@ function Game({ dispatch }) {
 					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
 				}
 			};
+		}
+		return () => {
+			ws.close();
 		}
 	}, []);
 
