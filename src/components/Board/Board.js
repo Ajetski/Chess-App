@@ -14,11 +14,10 @@ function Board(props) {
 	const [cg, setCg] = useState();
 	const [boardRef, setBoardRef] = useState();
 
-
-
 	const config = {
 		orientation: props.orientation,
 		turnColor: toColor(chess),
+		lastMove: chess.history({ verbose: true }).slice(-1).map(move => [move.from, move.to])[0],
 		movable: {
 			color: toColor(chess),
 			free: false,
@@ -46,15 +45,25 @@ function Board(props) {
 	}, [boardRef]);
 
 	useEffect(() => {
-		if (chess === props.chess && chess.history().length > 0)
-			return;
+		if (chess.pgn() !== props.chess.pgn())
+			setChess(copyChess(props.chess));
+
+
+	}, [props.chess]);
+
+	useEffect(() => {
+		if (cg) {
+			cg.set(config);
+		}
+	}, [props.orientation]);
+
+	useEffect(() => {
+		props.dispatch(setChessRedux({ chess }));
 
 		if (cg) {
 			cg.set(config);
 		}
 
-		//update global state
-		props.dispatch(setChessRedux({ chess }));
 		props.engine.postMessage('stop');
 		props.engine.postMessage(`position fen ${chess.fen()}`);
 		props.engine.postMessage(`go depth ${props.maxDepth}`);
@@ -76,7 +85,7 @@ function Board(props) {
 				}));
 			}
 		};
-	}, [chess, props])
+	}, [chess]);
 
 	return (
 		<>
