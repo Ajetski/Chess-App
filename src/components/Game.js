@@ -5,16 +5,17 @@ import { useParams } from 'react-router-dom';
 
 import env from '../env';
 import { pgnToChess } from '../utils';
-import { connectToGame } from '../ws/actions/gameActions';
+import { connectToGame, makeMove } from '../ws/actions/gameActions';
 import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 
-function Game({ dispatch }) {
+function Game({ dispatch, chess }) {
 	const { gameId } = useParams();
 
 	const [ws] = useState(new WebSocket(env.apiUrl));
+	const [serverMadeMove, setServerMadeMode] = useState(false);
 
 	useEffect(() => {
 		if (gameId) {
@@ -24,8 +25,10 @@ function Game({ dispatch }) {
 			ws.onmessage = ({ data }) => {
 				const action = JSON.parse(data);
 				if (action.type === 'game/connect') {
-					console.log(action);
 					dispatch(setOrientation({ orientation: action.orientation }));
+					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
+				} else if (action.type === 'game/move') {
+					setServerMadeMode(true);
 					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
 				}
 			};
@@ -34,6 +37,18 @@ function Game({ dispatch }) {
 			ws.close();
 		}
 	}, []);
+
+	useEffect(() => {
+		const [move] = chess.history().slice(-1);
+		if (move && !serverMadeMove) {
+			console.log(`send move: ${move}`);
+			if (ws.readyState === 1) //if connection is open
+				ws.send(makeMove({ id: gameId, move }))
+		}
+		else if (serverMadeMove) {
+			setServerMadeMode(false);
+		}
+	}, [chess]);
 
 	return (
 		<>
@@ -52,7 +67,8 @@ function Game({ dispatch }) {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		...ownProps
+		...ownProps,
+		chess: state.chess.chess
 	};
 }
 
