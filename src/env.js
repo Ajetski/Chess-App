@@ -8,7 +8,7 @@ if (dev) { // for dev
 	};
 } else { // for prod
 	env = {
-		apiUrl: 'ws://ajet-chess-app-server.herokuapp.com',
+		apiUrl: 'wss://ajet-chess-app-server.herokuapp.com',
 		siteURL: 'https://ajet-chess-app.herokuapp.com'
 	};
 }
