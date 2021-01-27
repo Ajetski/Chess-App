@@ -8,7 +8,7 @@ const Analysis = () => (
 	<>
 		<div className="col-xl-8 col-12">
 			<div className="mx-auto" style={{ width: 'fit-content' }}>
-				<Board />
+				<Board premovesEnabled={false} />
 				<BoardSettings />
 			</div>
 		</div>
