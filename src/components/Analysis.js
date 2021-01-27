@@ -4,7 +4,7 @@ import Evaluation from './Evaluation';
 import GameControl from './GameControl';
 import GameHistory from './GameHistory';
 
-const Game = () => (
+const Analysis = () => (
 	<>
 		<div className="col-xl-8 col-12">
 			<div className="mx-auto" style={{ width: 'fit-content' }}>
@@ -20,4 +20,4 @@ const Game = () => (
 	</>
 );
 
-export default Game;
+export default Analysis;
