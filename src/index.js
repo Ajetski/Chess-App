@@ -9,6 +9,10 @@ import './index.css'
 
 const store = configureStore();
 
+// store.subscribe(() => {
+// 	console.log(store.getState());
+// });
+
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark'
@@ -16,12 +20,10 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<App />
-			</ThemeProvider>
-		</Provider>
-	</React.StrictMode>,
+	<Provider store={store}>
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>
+	</Provider>,
 	document.getElementById('root')
 );
