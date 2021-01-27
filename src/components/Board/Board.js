@@ -12,6 +12,7 @@ import './styles/theme.css';
 function Board(props) {
 	const [chess, setChess] = useState(props.chess);
 	const [cg, setCg] = useState();
+	const [premove, setPremove] = useState(undefined);
 	const [boardRef, setBoardRef] = useState();
 
 	const config = {
@@ -19,7 +20,7 @@ function Board(props) {
 		turnColor: toColor(chess),
 		lastMove: chess.history({ verbose: true }).slice(-1).map(move => [move.from, move.to])[0],
 		movable: {
-			color: toColor(chess),
+			color: props.orientation,
 			free: false,
 			dests: toDests(chess),
 			events: {
@@ -27,6 +28,17 @@ function Board(props) {
 					chess.move({ from: orig, to: dest });
 					const copy = copyChess(chess);
 					setChess(() => copy);
+				}
+			}
+		},
+		premovable: {
+			enabled: props.premovesEnabled,
+			events: {
+				set: (orig, dest, metadata) => {
+					setPremove(() => ({ from: orig, to: dest }));
+				},
+				unset: () => {
+					setPremove(() => undefined);
 				}
 			}
 		},
@@ -48,8 +60,15 @@ function Board(props) {
 		if (cg) {
 			cg.set(config);
 		}
-		if (chess.pgn() !== props.chess.pgn()) {
-			setChess(copyChess(props.chess));
+
+		if (premove) {
+			props.chess.move(premove);
+			cg.playPremove();
+			setPremove(() => undefined);
+			setChess(() => copyChess(props.chess));
+		}
+		else if (chess.pgn() !== props.chess.pgn()) {
+			setChess(() => copyChess(props.chess));
 		}
 
 		props.engine.postMessage('stop');
@@ -83,22 +102,19 @@ function Board(props) {
 
 	useEffect(() => {
 		props.dispatch(setChessRedux({ chess }));
-
 		if (cg) {
+			console.log('set config', config);
 			cg.set(config);
 		}
-
 	}, [chess]);
 
 	return (
-		<>
-			<div ref={el => setBoardRef(() => el)}
-				style={{
-					width: props.width,
-					height: props.height
-				}}>
-			</div>
-		</>
+		<div ref={el => setBoardRef(() => el)}
+			style={{
+				width: props.width,
+				height: props.height
+			}}>
+		</div>
 	);
 }
 
@@ -113,7 +129,8 @@ function mapStateToProps(state, ownProps) {
 		orientation: state.chess.orientation,
 		engine: state.engine.engine,
 		maxDepth: state.engine.maxDepth,
-		...ownProps,
+		premovesEnabled: true,
+		...ownProps
 	};
 }
 
