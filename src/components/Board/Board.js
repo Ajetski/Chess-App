@@ -20,7 +20,7 @@ function Board(props) {
 		turnColor: toColor(chess),
 		lastMove: chess.history({ verbose: true }).slice(-1).map(move => [move.from, move.to])[0],
 		movable: {
-			color: props.orientation,
+			color: props.analysisMode ? toColor(chess) : props.orientation,
 			free: false,
 			dests: toDests(chess),
 			events: {
@@ -129,8 +129,9 @@ function mapStateToProps(state, ownProps) {
 		orientation: state.chess.orientation,
 		engine: state.engine.engine,
 		maxDepth: state.engine.maxDepth,
-		premovesEnabled: true,
-		...ownProps
+		analysisMode: false,
+		...ownProps,
+		premovesEnabled: ownProps.premovesEnabled || (ownProps.analysisMode || true),
 	};
 }
 
