@@ -1,5 +1,7 @@
 import Board from './Board';
 import BoardSettings from './BoardSettings';
+import Evaluation from './Evaluation';
+import GameControl from './GameControl';
 import GameHistory from './GameHistory';
 
 const Game = () => (
@@ -11,7 +13,9 @@ const Game = () => (
 			</div>
 		</div>
 		<div className="col-xl-4 mt-3">
+			<Evaluation />
 			<GameHistory />
+			<GameControl />
 		</div>
 	</>
 );
