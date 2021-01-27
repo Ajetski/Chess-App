@@ -1,3 +1,3 @@
 A chess app built using React.js
 
-Deployed to: http://ajet-chess-app.herokuapp.com/
+Deployed to: https://ajet-chess-app.herokuapp.com/
