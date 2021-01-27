@@ -45,10 +45,12 @@ function Board(props) {
 	}, [boardRef]);
 
 	useEffect(() => {
-		if (chess.pgn() !== props.chess.pgn())
+		if (cg) {
+			cg.set(config);
+		}
+		if (chess.pgn() !== props.chess.pgn()) {
 			setChess(copyChess(props.chess));
-
-
+		}
 	}, [props.chess]);
 
 	useEffect(() => {
@@ -58,6 +60,7 @@ function Board(props) {
 	}, [props.orientation]);
 
 	useEffect(() => {
+		console.log(`update chess (and board)\n${chess.pgn()}`);
 		props.dispatch(setChessRedux({ chess }));
 
 		if (cg) {
