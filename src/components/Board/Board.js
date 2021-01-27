@@ -51,21 +51,6 @@ function Board(props) {
 		if (chess.pgn() !== props.chess.pgn()) {
 			setChess(copyChess(props.chess));
 		}
-	}, [props.chess]);
-
-	useEffect(() => {
-		if (cg) {
-			cg.set(config);
-		}
-	}, [props.orientation]);
-
-	useEffect(() => {
-		console.log(`update chess (and board)\n${chess.pgn()}`);
-		props.dispatch(setChessRedux({ chess }));
-
-		if (cg) {
-			cg.set(config);
-		}
 
 		props.engine.postMessage('stop');
 		props.engine.postMessage(`position fen ${chess.fen()}`);
@@ -88,6 +73,21 @@ function Board(props) {
 				}));
 			}
 		};
+	}, [props.chess]);
+
+	useEffect(() => {
+		if (cg) {
+			cg.set(config);
+		}
+	}, [props.orientation]);
+
+	useEffect(() => {
+		props.dispatch(setChessRedux({ chess }));
+
+		if (cg) {
+			cg.set(config);
+		}
+
 	}, [chess]);
 
 	return (
