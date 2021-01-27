@@ -3,7 +3,7 @@ const initialState = {
 	bestmove: '',
 	line: [],
 	depth: 1,
-	engine: new Worker('stockfish.js'),
+	engine: new Worker('/stockfish.js'),
 	maxDepth: 18
 }
 
