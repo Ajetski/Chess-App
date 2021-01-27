@@ -63,13 +63,8 @@ function Game({ dispatch, chess }) {
 			</div>
 		</>
 	);
-}
+};
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-		...ownProps,
-		chess: state.chess.chess
-	};
-}
+const mapStateToProps = (state, ownProps) => ({ ...ownProps, chess: state.chess.chess });
 
 export default connect(mapStateToProps)(Game);
