@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 import env from '../env';
-import { newGame } from '../ws/actions/gameActions';
-
 import {
 	Modal,
 	ModalOpenButton,
@@ -20,47 +19,52 @@ export default function Home() {
 	const [copyText, setCopyText] = useState('Copy Link');
 
 	function handleNewGame() {
-		const ws = new WebSocket(env.apiUrl);
-		ws.onopen = () => {
-			ws.send(newGame());
-		}
-		ws.onmessage = ({ data }) => {
-			const action = JSON.parse(data);
-			if (action.type === 'game/newGame')
-				setGameId(action.id);
-		};
+		axios.post(`${env.apiUrl}/game`, {}).then(res => {
+			setGameId(() => res.data.id);
+		});
 	}
 
 	function hanldeGoToGame() {
 		history.push(`/game/${gameId}`);
 	}
 
-	function copyLink() {
+	function handleCloseModal() {
+		setCopyText(() => 'Copy Link');
+		setGameId(() => undefined);
+	}
+
+	function handleCopyLink() {
 		navigator.clipboard.writeText(`${env.siteURL}/game/${gameId}`)
 			.then(() => setCopyText('Coppied...'));
 	}
 
 	return (
 		<>
-			<ModalOpenButton
-				modal-id="newGameModal"
-				className="btn btn-primary"
-				onClick={handleNewGame}>
-				New Game
-			</ModalOpenButton>
+			<div className="container">
+				<div className="row">
+					<ModalOpenButton
+						modal-id="newGameModal"
+						className="btn btn-primary"
+						onClick={handleNewGame}>
+						New Game
+					</ModalOpenButton>
+				</div>
+
+			</div>
+
 			<Modal id="newGameModal">
 				<ModalHeader>
 					<ModalTitle>
-						Game Created
-				</ModalTitle>
+						{gameId ? 'Game Created' : 'Creating Game...'}
+					</ModalTitle>
 				</ModalHeader>
 				<ModalBody>
-					{gameId ? (
+					{gameId ?
 						<>
 							<p>
 								Send this URL to a friend: {`${env.siteURL}/game/${gameId}`}
 								<button className="btn btn-primary"
-									onClick={copyLink}>
+									onClick={handleCopyLink}>
 									{copyText}
 								</button>
 							</p>
@@ -70,13 +74,12 @@ export default function Home() {
 								Go to game
 							</ModalCloseButton>
 						</>
-					)
 						: <p>Generating new game...</p>}
 				</ModalBody>
 				<ModalFooter>
 					<ModalCloseButton
 						className="float-right btn btn-danger"
-						onClick={() => setCopyText('Copy Link')}>
+						onClick={handleCloseModal}>
 						Close
 				</ModalCloseButton>
 				</ModalFooter>
