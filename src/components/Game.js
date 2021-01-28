@@ -14,7 +14,7 @@ import GameHistory from './GameHistory';
 function Game({ dispatch, chess }) {
 	const { gameId } = useParams();
 
-	const [ws] = useState(new WebSocket(env.apiUrl));
+	const [ws] = useState(new WebSocket(env.wsUrl));
 	const [serverLastState, setServerLastState] = useState(chess.pgn());
 
 	useEffect(() => {
