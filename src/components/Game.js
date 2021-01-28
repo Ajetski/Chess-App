@@ -15,7 +15,7 @@ function Game({ dispatch, chess }) {
 	const { gameId } = useParams();
 
 	const [ws] = useState(new WebSocket(env.apiUrl));
-	const [serverMadeMove, setServerMadeMode] = useState(false);
+	const [serverLastState, setServerLastState] = useState(chess.pgn());
 
 	useEffect(() => {
 		if (gameId) {
@@ -27,8 +27,9 @@ function Game({ dispatch, chess }) {
 				if (action.type === 'game/connect') {
 					dispatch(setOrientation({ orientation: action.orientation }));
 					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
+					setServerLastState(() => chess.pgn());
 				} else if (action.type === 'game/move') {
-					setServerMadeMode(true);
+					setServerLastState(() => action.pgn);
 					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
 				}
 			};
@@ -40,13 +41,12 @@ function Game({ dispatch, chess }) {
 
 	useEffect(() => {
 		const [move] = chess.history().slice(-1);
-		if (move && !serverMadeMove) {
+		if (move && serverLastState !== chess.pgn()) {
 			console.log(`send move: ${move}`);
-			if (ws.readyState === 1) //if connection is open
-				ws.send(makeMove({ id: gameId, move }))
-		}
-		else if (serverMadeMove) {
-			setServerMadeMode(false);
+			if (ws.readyState === 1) {  //if connection is open
+				ws.send(makeMove({ id: gameId, move }));
+				setServerLastState(() => chess.pgn());
+			}
 		}
 	}, [chess]);
 
