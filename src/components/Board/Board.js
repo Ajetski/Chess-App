@@ -103,7 +103,6 @@ function Board(props) {
 	useEffect(() => {
 		props.dispatch(setChessRedux({ chess }));
 		if (cg) {
-			console.log('set config', config);
 			cg.set(config);
 		}
 	}, [chess]);
