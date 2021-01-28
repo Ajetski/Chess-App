@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
+import SelectGame from './SelectGame.js'
 import env from '../env';
 import {
 	Modal,
@@ -49,7 +50,9 @@ export default function Home() {
 						New Game
 					</ModalOpenButton>
 				</div>
-
+				<div className="row mt-4">
+					<SelectGame />
+				</div>
 			</div>
 
 			<Modal id="newGameModal">
