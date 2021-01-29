@@ -63,20 +63,22 @@ export default function Home() {
 				</ModalHeader>
 				<ModalBody>
 					{gameId ?
-						<>
-							<p>
+						<div className="container">
+							<div className="row my-2">
 								Send this URL to a friend: {`${env.siteURL}/game/${gameId}`}
-								<button className="btn btn-primary"
+							</div>
+							<div className="row my-2 btn-group">
+								<button className="btn btn-secondary"
 									onClick={handleCopyLink}>
 									{copyText}
 								</button>
-							</p>
-							<ModalCloseButton
-								className="btn btn-primary"
-								onClick={hanldeGoToGame}>
-								Go to game
-							</ModalCloseButton>
-						</>
+								<ModalCloseButton
+									className="btn btn-primary"
+									onClick={hanldeGoToGame}>
+									Go to game
+									</ModalCloseButton>
+							</div>
+						</div>
 						: <p>Generating new game...</p>}
 				</ModalBody>
 				<ModalFooter>
