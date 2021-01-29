@@ -1,6 +1,7 @@
 body {
 	background-color: #151515;
 	color: white;
+	height: 100vh;
 }
 
 .modal-content {
