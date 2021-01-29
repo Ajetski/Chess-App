@@ -26,7 +26,7 @@
 		"setEnv:dev": "(cd src/env && rm env.js && mv env.dev.js env.js)",
 		"setEnv:test": "(cd src/env && rm env.js && mv env.test.js env.js)",
 		"setEnv:prod": "(cd src/env && rm env.js && mv env.prod.js env.js)",
-		"heroku-prebuild": "npm start setEnv:$ENV"
+		"heroku-prebuild": "npm run setEnv:$ENV"
 	},
 	"eslintConfig": {
 		"extends": [
