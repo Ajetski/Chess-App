@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import env from '../env';
+import env from '../env/env';
 import { pgnToChess } from '../utils';
 import { connectToGame, makeMove } from '../ws/actions/gameActions';
 import { setOrientation, setChess } from '../actions/chessActions';

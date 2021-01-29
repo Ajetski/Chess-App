@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import SelectGame from './SelectGame.js'
-import env from '../env';
+import env from '../env/env';
 import {
 	Modal,
 	ModalOpenButton,
