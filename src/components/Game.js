@@ -20,7 +20,10 @@ function Game({ dispatch, chess }) {
 	useEffect(() => {
 		if (gameId) {
 			ws.onopen = () => {
-				ws.send(connectToGame({ id: gameId }));
+				ws.send(connectToGame({
+					id: gameId,
+					isPlayer: true
+				}));
 			}
 			ws.onmessage = ({ data }) => {
 				const action = JSON.parse(data);
