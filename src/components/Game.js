@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import env from '../env/env';
 import { pgnToChess } from '../utils';
-import { connectToGame, makeMove } from '../ws/actions/gameActions';
+import { connectToGame, makeMove, stayConnected } from '../ws/actions/gameActions';
 import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
@@ -24,6 +24,13 @@ function Game({ dispatch, chess }) {
 					id: gameId,
 					isPlayer: true
 				}));
+				const sendPing = () => {
+					if (ws.readyState === 1) {
+						// eslint-disable-next-line no-unused-vars
+						setTimeout(sendPing, 30000);
+						ws.send(stayConnected());
+					}
+				}
 			}
 			ws.onmessage = ({ data }) => {
 				const action = JSON.parse(data);
