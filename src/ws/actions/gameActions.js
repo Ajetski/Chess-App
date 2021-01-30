@@ -12,9 +12,11 @@ export function makeMove({ id, move } = {}) {
 	});
 }
 
-export function connectToGame({ id } = {}) {
+export function connectToGame({ id, isPlayer } = {}) {
 	return JSON.stringify({
 		type: 'game/connect',
-		id
+		id,
+		isPlayer,
+		userId: localStorage.getItem('userId')
 	});
 }
