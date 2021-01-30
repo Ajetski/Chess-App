@@ -20,3 +20,9 @@ export function connectToGame({ id, isPlayer } = {}) {
 		userId: localStorage.getItem('userId')
 	});
 }
+
+export function stayConnected() {
+	return JSON.stringify({
+		type: 'game/ping'
+	});
+}
