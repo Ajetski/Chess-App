@@ -6,7 +6,7 @@ const Evaluation = ({ engine, chess }) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
 
 	useEffect(() => {
-		setMaxDepth(() => engine.maxDepth);
+		setMaxDepth(engine.maxDepth);
 	}, [chess]);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const Evaluation = ({ engine, chess }) => {
 				engine.depth === maxDepth &&
 				<button
 					className="btn btn-info"
-					onClick={() => setMaxDepth(() => maxDepth + 5)}>
+					onClick={() => setMaxDepth(maxDepth + 5)}>
 					+
 				</button>
 			}

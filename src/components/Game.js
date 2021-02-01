@@ -37,9 +37,9 @@ function Game({ dispatch, chess }) {
 				if (action.type === 'game/connect') {
 					dispatch(setOrientation({ orientation: action.orientation }));
 					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
-					setServerLastState(() => chess.pgn());
+					setServerLastState(chess.pgn());
 				} else if (action.type === 'game/move') {
-					setServerLastState(() => action.pgn);
+					setServerLastState(action.pgn);
 					dispatch(setChess({ chess: pgnToChess(action.pgn) }));
 				}
 			};
@@ -55,7 +55,7 @@ function Game({ dispatch, chess }) {
 			console.log(`send move: ${move}`);
 			if (ws.readyState === 1) {  //if connection is open
 				ws.send(makeMove({ id: gameId, move }));
-				setServerLastState(() => chess.pgn());
+				setServerLastState(chess.pgn());
 			}
 		}
 	}, [chess]);

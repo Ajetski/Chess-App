@@ -24,7 +24,7 @@ export default function SelectGame() {
 
     useEffect(() => {
         axios.get(`${env.apiUrl}/game`).then(res => {
-            setRows(() => res.data);
+            setRows(res.data);
         })
         return () => {
             // clean up

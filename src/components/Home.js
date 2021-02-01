@@ -21,7 +21,7 @@ export default function Home() {
 
 	function handleNewGame() {
 		axios.post(`${env.apiUrl}/game`, {}).then(res => {
-			setGameId(() => res.data.id);
+			setGameId(res.data.id);
 		});
 	}
 
@@ -30,8 +30,8 @@ export default function Home() {
 	}
 
 	function handleCloseModal() {
-		setCopyText(() => 'Copy Link');
-		setGameId(() => undefined);
+		setCopyText('Copy Link');
+		setGameId(undefined);
 	}
 
 	function handleCopyLink() {

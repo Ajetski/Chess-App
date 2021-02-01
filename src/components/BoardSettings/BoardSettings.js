@@ -38,7 +38,7 @@ export default function BoardSettings() {
 			board.classList.remove(theme);
 			board.classList.add(newTheme);
 		}
-		setTheme(() => newTheme);
+		setTheme(newTheme);
 	};
 
 	const handleChangeTheme = (e) => {
