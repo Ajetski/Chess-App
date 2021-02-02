@@ -20,7 +20,7 @@ export default function Home() {
 	const history = useHistory();
 	const [copyText, setCopyText] = useState('Copy Link');
 
-	function hanldeGoToGame() {
+	function handleGoToGame() {
 		history.push(`/game/${gameId}`);
 	}
 
@@ -98,7 +98,7 @@ export default function Home() {
 									</button>
 									<ModalCloseButton
 										className="btn btn-primary"
-										onClick={hanldeGoToGame}>
+										onClick={handleGoToGame}>
 										Go to game
 								</ModalCloseButton>
 								</div>
