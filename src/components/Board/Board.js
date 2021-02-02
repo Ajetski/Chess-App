@@ -27,7 +27,6 @@ function Board(props) {
 				after: (orig, dest) => {
 					chess.move({ from: orig, to: dest });
 					const copy = copyChess(chess);
-					setChess(() => copy);
 					setChess(copy);
 				}
 			}
