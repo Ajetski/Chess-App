@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -21,6 +22,7 @@ const useStyles = makeStyles({
 export default function SelectGame() {
     const classes = useStyles();
     const [rows, setRows] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         axios.get(`${env.apiUrl}/game`).then(res => {
@@ -38,6 +40,7 @@ export default function SelectGame() {
                     <TableRow>
                         <TableCell align="left">Game Id</TableCell>
                         <TableCell align="left">Num Moves</TableCell>
+                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -45,10 +48,16 @@ export default function SelectGame() {
                         <TableRow key={row.id}>
                             <TableCell align="left">{row.id}</TableCell>
                             <TableCell align="left">{row.numMoves}</TableCell>
+                            <TableCell align="left">
+                                <button class="btn btn-primary"
+                                    onClick={() => history.push(`game/watch/${row.id}`)}>
+                                    Spectate
+                                </button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer >
     );
 }
