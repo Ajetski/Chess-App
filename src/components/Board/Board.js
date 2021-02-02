@@ -28,17 +28,17 @@ function Board(props) {
 					chess.move({ from: orig, to: dest });
 					const copy = copyChess(chess);
 					setChess(() => copy);
+					setChess(copy);
 				}
 			}
 		},
 		premovable: {
-			enabled: props.premovesEnabled,
 			events: {
 				set: (orig, dest, metadata) => {
-					setPremove(() => ({ from: orig, to: dest }));
+					setPremove({ from: orig, to: dest });
 				},
 				unset: () => {
-					setPremove(() => undefined);
+					setPremove(undefined);
 				}
 			}
 		},
@@ -51,7 +51,7 @@ function Board(props) {
 	useEffect(() => {
 		if (boardRef) {
 			const api = Chessground(boardRef, config);
-			setCg(() => api);
+			setCg(api);
 			document.getElementsByClassName('cg-wrap').item(0).classList.add(localStorage.getItem('board-theme') || 'blue2');
 		}
 	}, [boardRef]);
@@ -64,11 +64,11 @@ function Board(props) {
 		if (premove) {
 			props.chess.move(premove);
 			cg.playPremove();
-			setPremove(() => undefined);
-			setChess(() => copyChess(props.chess));
+			setPremove(undefined);
+			setChess(copyChess(props.chess));
 		}
 		else if (chess.pgn() !== props.chess.pgn()) {
-			setChess(() => copyChess(props.chess));
+			setChess(copyChess(props.chess));
 		}
 
 		props.engine.postMessage('stop');
@@ -108,7 +108,7 @@ function Board(props) {
 	}, [chess]);
 
 	return (
-		<div ref={el => setBoardRef(() => el)}
+		<div ref={el => setBoardRef(el)}
 			style={{
 				width: props.width,
 				height: props.height
