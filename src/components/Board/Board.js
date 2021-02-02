@@ -19,6 +19,7 @@ function Board(props) {
 		orientation: props.orientation,
 		turnColor: toColor(chess),
 		lastMove: chess.history({ verbose: true }).slice(-1).map(move => [move.from, move.to])[0],
+		viewOnly: props.spectateMode,
 		movable: {
 			color: props.analysisMode ? toColor(chess) : props.orientation,
 			free: false,
@@ -128,8 +129,8 @@ function mapStateToProps(state, ownProps) {
 		engine: state.engine.engine,
 		maxDepth: state.engine.maxDepth,
 		analysisMode: false,
-		...ownProps,
-		premovesEnabled: ownProps.premovesEnabled || (ownProps.analysisMode || true),
+		spectateMode: false,
+		...ownProps
 	};
 }
 
