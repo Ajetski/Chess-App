@@ -63,7 +63,11 @@ export default function Home() {
 			<Modal id="newGameModal">
 				<ModalHeader>
 					<ModalTitle>
-						{gameId ? 'Game Created' : 'Creating Game...'}
+						{!color ?
+							'Choose a color'
+							: gameId ?
+								'Game Created'
+								: 'Creating Game...'}
 					</ModalTitle>
 				</ModalHeader>
 				<ModalBody>
@@ -73,11 +77,11 @@ export default function Home() {
 								onClick={() => setColor('white')}>
 								White
 							</button>
-							<button className="btn btn-primary"
+							<button className="btn btn-secondary"
 								onClick={() => setColor('black')}>
 								Black
 							</button>
-							<button className="btn btn-primary"
+							<button className="btn btn-info"
 								onClick={() => setColor('random')}>
 								Random
 							</button>
