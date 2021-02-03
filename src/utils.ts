@@ -9,7 +9,7 @@ export function toDests(chess) {
 	return dests;
 }
 
-export function toColor(chess) {
+export function toColor(chess): 'white' | 'black' {
 	return (chess.turn() === 'w') ? 'white' : 'black';
 
 }

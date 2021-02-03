@@ -1,4 +1,4 @@
-export function updateEval(payload = {}) {
+export function updateEval(payload) {
 	return {
 		type: 'engine/updateEval',
 		depth: payload.depth,
@@ -8,14 +8,14 @@ export function updateEval(payload = {}) {
 	};
 }
 
-export function setMaxDepth(payload = {}) {
+export function setMaxDepth(payload) {
 	return {
 		type: 'engine/setMaxDepth',
 		maxDepth: payload.maxDepth
 	};
 }
 
-export function setEngine(payload = {}) {
+export function setEngine(payload) {
 	return {
 		type: 'engine/setEngine',
 		engine: payload.engine
