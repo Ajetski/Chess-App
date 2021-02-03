@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
+import { Api } from 'chessground/api';
 
 import { toDests, toColor, copyChess } from '../../utils';
 import { setChess as setChessRedux } from '../../actions/chessActions';
@@ -11,9 +12,9 @@ import './styles/theme.css';
 
 function Board(props) {
 	const [chess, setChess] = useState(props.chess);
-	const [cg, setCg] = useState();
-	const [premove, setPremove] = useState(undefined);
-	const [boardRef, setBoardRef] = useState();
+	const [cg, setCg] = useState<Api>();
+	const [premove, setPremove] = useState<{ from: string, to: string }>();
+	const [boardRef, setBoardRef] = useState<HTMLDivElement>();
 
 	const config = {
 		orientation: props.orientation,
@@ -52,7 +53,9 @@ function Board(props) {
 		if (boardRef) {
 			const api = Chessground(boardRef, config);
 			setCg(api);
-			document.getElementsByClassName('cg-wrap').item(0).classList.add(localStorage.getItem('board-theme') || 'blue2');
+			const board = document.getElementsByClassName('cg-wrap').item(0);
+			if (board)
+				board.classList.add(localStorage.getItem('board-theme') || 'blue2');
 		}
 	}, [boardRef]);
 
@@ -61,7 +64,7 @@ function Board(props) {
 			cg.set(config);
 		}
 
-		if (premove) {
+		if (premove && cg) {
 			props.chess.move(premove);
 			cg.playPremove();
 			setPremove(undefined);
@@ -108,7 +111,9 @@ function Board(props) {
 	}, [chess]);
 
 	return (
-		<div ref={el => setBoardRef(el)}
+		<div ref={(el) => {
+			if (el) setBoardRef(el);
+		}}
 			style={{
 				width: props.width,
 				height: props.height

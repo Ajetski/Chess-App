@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-import SelectGame from './SelectGame.js'
+import SelectGame from './SelectGame'
 import env from '../env/env';
 import {
 	Modal,
@@ -15,8 +15,8 @@ import {
 } from "./Modal";
 
 export default function Home() {
-	const [gameId, setGameId] = useState();
-	const [color, setColor] = useState();
+	const [gameId, setGameId] = useState('');
+	const [color, setColor] = useState('');
 	const history = useHistory();
 	const [copyText, setCopyText] = useState('Copy Link');
 
@@ -26,8 +26,8 @@ export default function Home() {
 
 	function handleCloseModal() {
 		setCopyText('Copy Link');
-		setColor();
-		setGameId();
+		setColor('');
+		setGameId('');
 	}
 
 	function handleCopyLink() {

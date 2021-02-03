@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -14,9 +14,7 @@ import GameControl from './GameControl';
 import GameHistory from './GameHistory';
 
 function Spectate({ dispatch, chess }) {
-    const { gameId } = useParams();
-
-    console.log(gameId);
+    const { gameId } = useParams<{ gameId: string }>();
 
     const [ws] = useState(new WebSocket(env.wsUrl));
 
@@ -31,6 +29,7 @@ function Spectate({ dispatch, chess }) {
                 const sendPing = () => {
                     if (ws.readyState === 1) {
                         // eslint-disable-next-line no-unused-vars
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
                         setTimeout(sendPing, 30000);
                         ws.send(stayConnected());
                     }

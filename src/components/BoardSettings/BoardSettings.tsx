@@ -35,8 +35,10 @@ export default function BoardSettings() {
 		const boards = document.getElementsByClassName('cg-wrap');
 		for (let i = 0; i < boards.length; i++) {
 			const board = boards.item(i);
-			board.classList.remove(theme);
-			board.classList.add(newTheme);
+			if (board) {
+				board.classList.remove(theme);
+				board.classList.add(newTheme);
+			}
 		}
 		setTheme(newTheme);
 	};

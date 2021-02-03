@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function ModalOpenButton(props) {
 	return (
 		<button type="button"
@@ -54,7 +56,7 @@ export function ModalFooter(props) {
 export function Modal(props) {
 
 	return (
-		<div className="modal" tabIndex="-1" id={props.id}>
+		<div className="modal" tabIndex={-1} id={props.id}>
 			<div className="modal-dialog">
 				<div className="modal-content">
 					{props.children}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 
 function Game({ dispatch, chess }) {
-	const { gameId } = useParams();
+	const { gameId } = useParams<{ gameId: string }>();
 
 	const [ws] = useState(new WebSocket(env.wsUrl));
 	const [serverLastState, setServerLastState] = useState(chess.pgn());
@@ -27,6 +27,7 @@ function Game({ dispatch, chess }) {
 				const sendPing = () => {
 					if (ws.readyState === 1) {
 						// eslint-disable-next-line no-unused-vars
+						// eslint-disable-next-line @typescript-eslint/no-unused-vars
 						setTimeout(sendPing, 30000);
 						ws.send(stayConnected());
 					}
@@ -78,3 +79,16 @@ function Game({ dispatch, chess }) {
 const mapStateToProps = (state, ownProps) => ({ ...ownProps, chess: state.chess.chess });
 
 export default connect(mapStateToProps)(Game);
+
+interface TestObject {
+	one: string,
+	two: number | string
+};
+
+function myFunc(first: string, second: number, obj: TestObject): Promise<string | number> {
+	return new Promise((resolve, reject) => {
+
+	});
+}
+
+myFunc('test', 2, { one: 'one', two: '2' });
