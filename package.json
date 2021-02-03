@@ -7,9 +7,9 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"setEnv:dev": "(cd src/env && rm env.js && mv env.dev.js env.js)",
-		"setEnv:test": "(cd src/env && rm env.js && mv env.test.js env.js)",
-		"setEnv:prod": "(cd src/env && rm env.js && mv env.prod.js env.js)",
+		"setEnv:dev": "(cd src/env && rm env.ts && mv env.dev.ts env.ts)",
+		"setEnv:test": "(cd src/env && rm env.ts && mv env.test.ts env.ts)",
+		"setEnv:prod": "(cd src/env && rm env.ts && mv env.prod.ts env.ts)",
 		"heroku-prebuild": "npm run setEnv:$ENV"
 	},
 	"eslintConfig": {
