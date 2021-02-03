@@ -12,8 +12,12 @@ import BoardSettings from './BoardSettings';
 import Evaluation from './Evaluation';
 import GameControl from './GameControl';
 import GameHistory from './GameHistory';
+import { ChessInstance } from 'chess.js';
 
-function Spectate({ dispatch, chess }) {
+function Spectate({ dispatch, chess }: {
+    dispatch: (arg0: any) => void,
+    chess: ChessInstance
+}) {
     const { gameId } = useParams<{ gameId: string }>();
 
     const [ws] = useState(new WebSocket(env.wsUrl));
@@ -66,6 +70,6 @@ function Spectate({ dispatch, chess }) {
     );
 };
 
-const mapStateToProps = (state, ownProps) => ({ ...ownProps, chess: state.chess.chess });
+const mapStateToProps = (state: any, ownProps: any) => ({ ...ownProps, chess: state.chess.chess });
 
 export default connect(mapStateToProps)(Spectate);

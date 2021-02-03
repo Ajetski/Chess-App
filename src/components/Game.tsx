@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { ChessInstance } from 'chess.js';
 
 import env from '../env/env';
 import { pgnToChess } from '../utils';
@@ -10,8 +11,12 @@ import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
+import { Store } from '../store/model';
 
-function Game({ dispatch, chess }) {
+function Game({ dispatch, chess }: {
+	dispatch: (arg0: any) => void,
+	chess: ChessInstance
+}) {
 	const { gameId } = useParams<{ gameId: string }>();
 
 	const [ws] = useState(new WebSocket(env.wsUrl));
@@ -73,19 +78,7 @@ function Game({ dispatch, chess }) {
 	);
 };
 
-const mapStateToProps = (state, ownProps) => ({ ...ownProps, chess: state.chess.chess });
+const mapStateToProps = (state: Store, ownProps: any) =>
+	({ ...ownProps, chess: state.chess.chess });
 
 export default connect(mapStateToProps)(Game);
-
-interface TestObject {
-	one: string,
-	two: number | string
-};
-
-function myFunc(first: string, second: number, obj: TestObject): Promise<string | number> {
-	return new Promise((resolve, reject) => {
-
-	});
-}
-
-myFunc('test', 2, { one: 'one', two: '2' });

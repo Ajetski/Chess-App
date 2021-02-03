@@ -12,7 +12,12 @@ import {
 } from '../Modal';
 import './BoardSettings.css'
 
-function BoardTheme(props) {
+function BoardTheme(props: {
+	name: string,
+	id: string,
+	handleClick: (arg0: any) => void,
+	currentTheme: string
+}) {
 	const active = props.currentTheme === props.id;
 	return (
 		<div className="row my-2 ml-5">
@@ -30,7 +35,7 @@ function BoardTheme(props) {
 export default function BoardSettings() {
 	const [theme, setTheme] = useState(localStorage.getItem('board-theme') || 'blue2');
 
-	const changeTheme = (newTheme) => {
+	const changeTheme = (newTheme: string) => {
 		localStorage.setItem('board-theme', newTheme);
 		const boards = document.getElementsByClassName('cg-wrap');
 		for (let i = 0; i < boards.length; i++) {
@@ -43,7 +48,7 @@ export default function BoardSettings() {
 		setTheme(newTheme);
 	};
 
-	const handleChangeTheme = (e) => {
+	const handleChangeTheme = (e: any) => {
 		changeTheme(e.currentTarget.dataset.id)
 	};
 

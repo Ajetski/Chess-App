@@ -1,23 +1,28 @@
-export function updateEval(payload) {
+export function updateEval({ depth, evaluation, bestmove, line }: {
+	depth: number,
+	evaluation: string,
+	bestmove: string,
+	line: string[]
+}) {
 	return {
 		type: 'engine/updateEval',
-		depth: payload.depth,
-		evaluation: payload.evaluation,
-		bestmove: payload.bestmove,
-		line: payload.line,
+		depth,
+		evaluation,
+		bestmove,
+		line
 	};
 }
 
-export function setMaxDepth(payload) {
+export function setMaxDepth({ maxDepth }: { maxDepth: number }) {
 	return {
 		type: 'engine/setMaxDepth',
-		maxDepth: payload.maxDepth
+		maxDepth
 	};
 }
 
-export function setEngine(payload) {
+export function setEngine({ engine }: { engine: Worker }) {
 	return {
 		type: 'engine/setEngine',
-		engine: payload.engine
+		engine
 	};
 }

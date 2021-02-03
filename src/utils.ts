@@ -1,6 +1,9 @@
-import Chess from 'chess.js';
+import { ChessInstance, Square } from 'chess.js';
+import { Api } from 'chessground/api';
 
-export function toDests(chess) {
+const Chess = require('chess.js');
+
+export function toDests(chess: ChessInstance) {
 	const dests = new Map();
 	chess.SQUARES.forEach(s => {
 		const ms = chess.moves({ square: s, verbose: true });
@@ -9,13 +12,13 @@ export function toDests(chess) {
 	return dests;
 }
 
-export function toColor(chess): 'white' | 'black' {
+export function toColor(chess: ChessInstance): 'white' | 'black' {
 	return (chess.turn() === 'w') ? 'white' : 'black';
 
 }
 
-export function playOtherSide(cg, chess) {
-	return (orig, dest) => {
+export function playOtherSide(cg: Api, chess: ChessInstance) {
+	return (orig: Square, dest: Square) => {
 		chess.move({ from: orig, to: dest });
 		cg.set({
 			turnColor: toColor(chess),
@@ -27,33 +30,33 @@ export function playOtherSide(cg, chess) {
 	};
 }
 
-export function aiPlay(cg, chess, delay, firstMove) {
-	return (orig, dest) => {
-		chess.move({ from: orig, to: dest });
-		setTimeout(() => {
-			const moves = chess.moves({ verbose: true });
-			const move = firstMove ? moves[0] : moves[Math.floor(Math.random() * moves.length)];
-			chess.move(move.san);
-			cg.move(move.from, move.to);
-			cg.set({
-				turnColor: toColor(chess),
-				movable: {
-					color: toColor(chess),
-					dests: toDests(chess)
-				}
-			});
-			cg.playPremove();
-		}, delay);
-	};
-}
+// export function aiPlay(cg: Api, chess: ChessInstance, delay, firstMove) {
+// 	return (orig: Square, dest: Square) => {
+// 		chess.move({ from: orig, to: dest });
+// 		setTimeout(() => {
+// 			const moves = chess.moves({ verbose: true });
+// 			const move = firstMove ? moves[0] : moves[Math.floor(Math.random() * moves.length)];
+// 			chess.move(move.san);
+// 			cg.move(move.from, move.to);
+// 			cg.set({
+// 				turnColor: toColor(chess),
+// 				movable: {
+// 					color: toColor(chess),
+// 					dests: toDests(chess)
+// 				}
+// 			});
+// 			cg.playPremove();
+// 		}, delay);
+// 	};
+// }
 
-export function copyChess(chess) {
+export function copyChess(chess: ChessInstance) {
 	const copy = new Chess();
 	copy.load_pgn(chess.pgn());
 	return copy;
 }
 
-export function pgnToChess(pgn) {
+export function pgnToChess(pgn: string) {
 	const copy = new Chess();
 	copy.load_pgn(pgn);
 	return copy;

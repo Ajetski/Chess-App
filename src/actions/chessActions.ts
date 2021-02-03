@@ -1,13 +1,15 @@
-export function setChess(payload) {
+import { ChessInstance } from 'chess.js';
+
+export function setChess({ chess }: { chess: ChessInstance }) {
 	return {
 		type: 'chess/setChess',
-		chess: payload.chess
+		chess
 	};
 }
 
-export function setOrientation(payload) {
+export function setOrientation({ orientation }: { orientation: 'white' | 'black' }) {
 	return {
 		type: 'chess/setOrientation',
-		orientation: payload.orientation
+		orientation
 	};
 }
