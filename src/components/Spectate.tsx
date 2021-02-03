@@ -20,19 +20,16 @@ function Spectate({ dispatch, chess }) {
 
     useEffect(() => {
         if (gameId) {
-            ws.onopen = () => {
+            ws.onopen = async () => {
                 console.log('connected to game', gameId);
                 ws.send(connectToGame({
                     id: gameId,
                     isPlayer: false
                 }));
-                const sendPing = () => {
-                    if (ws.readyState === 1) {
-                        // eslint-disable-next-line no-unused-vars
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        setTimeout(sendPing, 30000);
-                        ws.send(stayConnected());
-                    }
+                while (ws.readyState === 1) {
+                    await new Promise<void>(resolve =>
+                        setTimeout(() => resolve(), 15000));
+                    ws.send(stayConnected());
                 }
             }
             ws.onmessage = ({ data }) => {
