@@ -30,9 +30,9 @@ function Game({ dispatch, chess }: {
 					isPlayer: true
 				}));
 				while (ws.readyState === 1) {
+					ws.send(stayConnected());
 					await new Promise<void>(resolve =>
 						setTimeout(() => resolve(), 15000));
-					ws.send(stayConnected());
 				}
 			}
 			ws.onmessage = ({ data }) => {

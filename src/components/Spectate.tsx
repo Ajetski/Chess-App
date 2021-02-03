@@ -31,9 +31,9 @@ function Spectate({ dispatch, chess }: {
                     isPlayer: false
                 }));
                 while (ws.readyState === 1) {
+                    ws.send(stayConnected());
                     await new Promise<void>(resolve =>
                         setTimeout(() => resolve(), 15000));
-                    ws.send(stayConnected());
                 }
             }
             ws.onmessage = ({ data }) => {
@@ -41,7 +41,6 @@ function Spectate({ dispatch, chess }: {
                 if (action.type === 'game/connect') {
                     dispatch(setOrientation({ orientation: action.orientation }));
                     dispatch(setChess({ chess: pgnToChess(action.pgn) }));
-                    console.log(action.pgn);
                 }
                 else if (action.type === 'game/move') {
                     dispatch(setChess({ chess: pgnToChess(action.pgn) }));
