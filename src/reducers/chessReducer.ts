@@ -1,11 +1,11 @@
-import Chess from 'chess.js';
+const Chess = require('chess.js');
 
 const initialState = {
 	chess: new Chess(),
 	orientation: 'white'
 };
 
-export default function chessReducer(state = initialState, action) {
+export default function chessReducer(state = initialState, action: any) {
 	if (action.type === 'chess/setChess')
 		return {
 			...state,

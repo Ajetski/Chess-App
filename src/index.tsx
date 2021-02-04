@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid';
 
 import App from './components/App';
 import configureStore from './store/configureStore';
@@ -18,6 +19,10 @@ const theme = createMuiTheme({
 		type: 'dark'
 	}
 });
+
+if (!localStorage.getItem('userId')) {
+	localStorage.setItem('userId', uuidv4());
+}
 
 ReactDOM.render(
 	<Provider store={store}>

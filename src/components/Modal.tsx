@@ -1,4 +1,10 @@
-export function ModalOpenButton(props) {
+import React from 'react';
+
+export function ModalOpenButton(props: {
+	'modal-id': string,
+	children: any
+	[other: string]: any
+}) {
 	return (
 		<button type="button"
 			{...props}
@@ -9,7 +15,10 @@ export function ModalOpenButton(props) {
 	);
 }
 
-export function ModalCloseButton(props) {
+export function ModalCloseButton(props: {
+	children: any
+	[other: string]: any
+}) {
 	return (
 		<button type="button"
 			{...props}
@@ -19,7 +28,10 @@ export function ModalCloseButton(props) {
 	);
 }
 
-export function ModalHeader(props) {
+export function ModalHeader(props: {
+	children: any
+	[other: string]: any
+}) {
 	return (
 		<div className="modal-header">
 			{props.children}
@@ -27,7 +39,10 @@ export function ModalHeader(props) {
 	);
 }
 
-export function ModalTitle(props) {
+export function ModalTitle(props: {
+	children: any
+	[other: string]: any
+}) {
 	return (
 		<h5 className="modal-title">
 			{props.children}
@@ -35,7 +50,10 @@ export function ModalTitle(props) {
 	);
 }
 
-export function ModalBody(props) {
+export function ModalBody(props: {
+	children: any
+	[other: string]: any
+}) {
 	return (
 		<div className="modal-body">
 			{props.children}
@@ -43,7 +61,10 @@ export function ModalBody(props) {
 	);
 }
 
-export function ModalFooter(props) {
+export function ModalFooter(props: {
+	children: any
+	[other: string]: any
+}) {
 	return (
 		<div className="modal-footer">
 			{props.children}
@@ -51,10 +72,13 @@ export function ModalFooter(props) {
 	);
 }
 
-export function Modal(props) {
-
+export function Modal(props: {
+	id: string,
+	children: any
+	[other: string]: any
+}) {
 	return (
-		<div className="modal" tabIndex="-1" id={props.id}>
+		<div className="modal" tabIndex={-1} id={props.id}>
 			<div className="modal-dialog">
 				<div className="modal-content">
 					{props.children}

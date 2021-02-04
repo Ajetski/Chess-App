@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-const Evaluation = ({ engine, chess }) => {
+import { Store } from '../store/model';
+
+const Evaluation = ({ engine, chess }: Store) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
 
 	useEffect(() => {
-		setMaxDepth(() => engine.maxDepth);
+		setMaxDepth(engine.maxDepth);
 	}, [chess]);
 
 	useEffect(() => {
@@ -20,7 +22,7 @@ const Evaluation = ({ engine, chess }) => {
 				engine.depth === maxDepth &&
 				<button
 					className="btn btn-info"
-					onClick={() => setMaxDepth(() => maxDepth + 5)}>
+					onClick={() => setMaxDepth(maxDepth + 5)}>
 					+
 				</button>
 			}
@@ -31,7 +33,7 @@ const Evaluation = ({ engine, chess }) => {
 	);
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state: Store, ownProps: any) => ({
 	...ownProps,
 	chess: state.chess.chess,
 	engine: state.engine

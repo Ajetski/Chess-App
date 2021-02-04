@@ -1,8 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core'
+import { ChessInstance } from 'chess.js';
 
-const GameHistory = ({ chess }) => (
+import { Store } from '../store/model';
+
+const GameHistory = ({ chess }: { chess: ChessInstance }) => (
 	<Paper style={{ height: "500px" }}>
 		{chess ?
 			<div className="pt-1 mt-1 mb-2">
@@ -18,6 +21,6 @@ const GameHistory = ({ chess }) => (
 	</Paper>
 );
 
-const mapStateToProps = (state) => ({ chess: state.chess.chess });
+const mapStateToProps = (state: Store) => ({ chess: state.chess.chess });
 
 export default connect(mapStateToProps)(GameHistory);

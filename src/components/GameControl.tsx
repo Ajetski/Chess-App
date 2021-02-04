@@ -1,9 +1,16 @@
+import React from 'react';
 import { connect } from 'react-redux';
+import { ChessInstance } from 'chess.js';
 
 import { setChess, setOrientation } from '../actions/chessActions';
 import { copyChess } from '../utils';
+import { Store } from '../store/model';
 
-const GameControl = ({ chess, orientation, dispatch }) => (
+const GameControl = ({ chess, orientation, dispatch }: {
+	chess: ChessInstance,
+	orientation: 'white' | 'black',
+	dispatch: (arg0: any) => void
+}) => (
 	<div className="btn-group mt-3">
 		<button type="button"
 			className="btn btn-secondary "
@@ -34,7 +41,7 @@ const GameControl = ({ chess, orientation, dispatch }) => (
 	</div>
 );
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state: Store, ownProps: any) => ({
 	...ownProps,
 	chess: state.chess.chess,
 	orientation: state.chess.orientation

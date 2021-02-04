@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import Evaluation from './Evaluation';

@@ -2,43 +2,58 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
+import { Api } from 'chessground/api';
+import { ChessInstance, ShortMove } from 'chess.js';
 
 import { toDests, toColor, copyChess } from '../../utils';
 import { setChess as setChessRedux } from '../../actions/chessActions';
 import { updateEval } from '../../actions/engineActions';
 import './styles/chessground.css';
 import './styles/theme.css';
+import { Square } from 'chess.js';
+import { Config } from 'chessground/config';
+import { Key } from 'chessground/types';
 
-function Board(props) {
+function Board(props: {
+	chess: ChessInstance,
+	orientation: 'white' | 'black',
+	width: string,
+	height: string,
+	spectateMode: boolean,
+	analysisMode: boolean,
+	maxDepth: number,
+	engine: Worker,
+	dispatch: (arg0: any) => void
+}) {
 	const [chess, setChess] = useState(props.chess);
-	const [cg, setCg] = useState();
-	const [premove, setPremove] = useState(undefined);
-	const [boardRef, setBoardRef] = useState();
+	const [cg, setCg] = useState<Api>();
+	const [premove, setPremove] = useState<ShortMove>();
+	const [boardRef, setBoardRef] = useState<HTMLDivElement>();
 
-	const config = {
+	const config: Config = {
 		orientation: props.orientation,
 		turnColor: toColor(chess),
 		lastMove: chess.history({ verbose: true }).slice(-1).map(move => [move.from, move.to])[0],
+		viewOnly: props.spectateMode,
 		movable: {
 			color: props.analysisMode ? toColor(chess) : props.orientation,
 			free: false,
 			dests: toDests(chess),
 			events: {
-				after: (orig, dest) => {
-					chess.move({ from: orig, to: dest });
+				after: (orig: Key, dest: Key, metadata: any) => {
+					chess.move({ from: orig as Square, to: dest as Square });
 					const copy = copyChess(chess);
-					setChess(() => copy);
+					setChess(copy);
 				}
 			}
 		},
 		premovable: {
-			enabled: props.premovesEnabled,
 			events: {
-				set: (orig, dest, metadata) => {
-					setPremove(() => ({ from: orig, to: dest }));
+				set: (orig: Key, dest: Key, metadata: any) => {
+					setPremove({ from: orig as Square, to: dest as Square });
 				},
 				unset: () => {
-					setPremove(() => undefined);
+					setPremove(undefined);
 				}
 			}
 		},
@@ -51,8 +66,10 @@ function Board(props) {
 	useEffect(() => {
 		if (boardRef) {
 			const api = Chessground(boardRef, config);
-			setCg(() => api);
-			document.getElementsByClassName('cg-wrap').item(0).classList.add(localStorage.getItem('board-theme') || 'blue2');
+			setCg(api);
+			const board = document.getElementsByClassName('cg-wrap').item(0);
+			if (board)
+				board.classList.add(localStorage.getItem('board-theme') || 'blue2');
 		}
 	}, [boardRef]);
 
@@ -61,14 +78,14 @@ function Board(props) {
 			cg.set(config);
 		}
 
-		if (premove) {
+		if (premove && cg) {
 			props.chess.move(premove);
 			cg.playPremove();
-			setPremove(() => undefined);
-			setChess(() => copyChess(props.chess));
+			setPremove(undefined);
+			setChess(copyChess(props.chess));
 		}
 		else if (chess.pgn() !== props.chess.pgn()) {
-			setChess(() => copyChess(props.chess));
+			setChess(copyChess(props.chess));
 		}
 
 		props.engine.postMessage('stop');
@@ -85,8 +102,8 @@ function Board(props) {
 				props.dispatch(updateEval({
 					depth: parseInt(data[2]),
 					evaluation: data[startEvalIdx] === 'cp'
-						? colorMultiplier * data[startEvalIdx + 1] / 100
-						: `#${colorMultiplier * data[startEvalIdx + 1]}`,
+						? `${colorMultiplier * data[startEvalIdx + 1] / 100}` as string
+						: `#${colorMultiplier * data[startEvalIdx + 1]}` as string,
 					bestmove: data[startLineIdx],
 					line: data.slice(startLineIdx, data.length - 3),
 				}));
@@ -108,7 +125,9 @@ function Board(props) {
 	}, [chess]);
 
 	return (
-		<div ref={el => setBoardRef(() => el)}
+		<div ref={(el) => {
+			if (el) setBoardRef(el);
+		}}
 			style={{
 				width: props.width,
 				height: props.height
@@ -122,15 +141,15 @@ Board.defaultProps = {
 	height: '720px'
 };
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: any, ownProps: any) {
 	return {
 		chess: state.chess.chess,
 		orientation: state.chess.orientation,
 		engine: state.engine.engine,
 		maxDepth: state.engine.maxDepth,
 		analysisMode: false,
-		...ownProps,
-		premovesEnabled: ownProps.premovesEnabled || (ownProps.analysisMode || true),
+		spectateMode: false,
+		...ownProps
 	};
 }
 
