@@ -4,7 +4,7 @@ export function newGame() {
 	});
 }
 
-export function makeMove({ id, move }: { id: string, move: string }) {
+export function makeMove({ id, move }: { id: number, move: string }) {
 	return JSON.stringify({
 		type: 'game/move',
 		id,
@@ -12,7 +12,7 @@ export function makeMove({ id, move }: { id: string, move: string }) {
 	});
 }
 
-export function connectToGame({ id, isPlayer }: { id: string, isPlayer: boolean }) {
+export function connectToGame({ id, isPlayer }: { id: number, isPlayer: boolean }) {
 	return JSON.stringify({
 		type: 'game/connect',
 		id,

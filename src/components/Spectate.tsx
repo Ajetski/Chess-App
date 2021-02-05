@@ -18,7 +18,8 @@ function Spectate({ dispatch, chess }: {
     dispatch: (arg0: any) => void,
     chess: ChessInstance
 }) {
-    const { gameId } = useParams<{ gameId: string }>();
+    const { gameId: gameIdStr } = useParams<{ gameId: string }>();
+    const gameId = parseInt(gameIdStr);
 
     const [ws] = useState(new WebSocket(env.wsUrl));
 
