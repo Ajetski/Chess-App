@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
@@ -13,8 +13,9 @@ import './styles/theme.css';
 import { Square } from 'chess.js';
 import { Config } from 'chessground/config';
 import { Key } from 'chessground/types';
+import { Store } from '../../store/types';
 
-function Board(props: {
+interface BoardProps {
 	chess: ChessInstance,
 	orientation: 'white' | 'black',
 	width: string,
@@ -24,7 +25,10 @@ function Board(props: {
 	maxDepth: number,
 	engine: Worker,
 	dispatch: (arg0: any) => void
-}) {
+};
+
+
+const Board: FunctionComponent<BoardProps> = (props) => {
 	const [chess, setChess] = useState(props.chess);
 	const [cg, setCg] = useState<Api>();
 	const [premove, setPremove] = useState<ShortMove>();
@@ -141,7 +145,7 @@ Board.defaultProps = {
 	height: '720px'
 };
 
-function mapStateToProps(state: any, ownProps: any) {
+const mapStateToProps = (state: Store, ownProps: any) => {
 	return {
 		chess: state.chess.chess,
 		orientation: state.chess.orientation,
