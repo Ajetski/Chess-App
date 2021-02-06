@@ -6,7 +6,7 @@ import { ChessInstance } from 'chess.js';
 import { Store } from '../store/types';
 
 const GameHistory = ({ chess }: { chess: ChessInstance }) => (
-	<Paper style={{ height: "500px" }}>
+	<Paper style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}>
 		{chess ?
 			<div className="pt-1 mt-1 mb-2">
 				{chess.history().length > 0 && chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
