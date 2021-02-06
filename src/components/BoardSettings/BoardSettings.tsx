@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
+import { FunctionComponent as Component, useState, useEffect } from 'react';
 
 import {
 	Modal,
@@ -12,12 +12,14 @@ import {
 } from '../Modal';
 import './BoardSettings.css'
 
-function BoardTheme(props: {
+type BoardThemeProps = {
 	name: string,
 	id: string,
 	handleClick: (arg0: any) => void,
 	currentTheme: string
-}) {
+};
+
+const BoardTheme: Component<BoardThemeProps> = (props) => {
 	const active = props.currentTheme === props.id;
 	return (
 		<div className="row my-2 ml-5">

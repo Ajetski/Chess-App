@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FunctionComponent as Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Store } from '../store/types';
 
-const Evaluation = ({ engine, chess }: Store) => {
+const Evaluation: Component<Store> = ({ engine, chess }) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
 
 	useEffect(() => {
@@ -33,9 +33,8 @@ const Evaluation = ({ engine, chess }: Store) => {
 	);
 }
 
-const mapStateToProps = (state: Store, ownProps: any) => ({
-	...ownProps,
-	chess: state.chess.chess,
+const mapStateToProps = (state: Store): Store => ({
+	chess: state.chess,
 	engine: state.engine
 });
 

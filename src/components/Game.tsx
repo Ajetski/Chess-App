@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent as Component, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ChessInstance } from 'chess.js';
@@ -13,12 +13,12 @@ import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 import { Store } from '../store/types';
 
-interface GameProps {
+type GameProps = {
 	dispatch: (arg0: any) => void,
 	chess: ChessInstance
 };
 
-const Game: FunctionComponent<GameProps> = ({ dispatch, chess }) => {
+const Game: Component<GameProps> = ({ dispatch, chess }) => {
 	const { gameId: gameIdStr } = useParams<{ gameId: string }>();
 	const gameId = parseInt(gameIdStr);
 

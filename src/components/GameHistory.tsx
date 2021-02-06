@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { FunctionComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core'
 import { ChessInstance } from 'chess.js';
 
 import { Store } from '../store/types';
 
-const GameHistory = ({ chess }: { chess: ChessInstance }) => (
+type GameHistoryProps = { chess: ChessInstance };
+
+const GameHistory: Component<GameHistoryProps> = ({ chess }) => (
 	<Paper style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}>
 		{chess ?
 			<div className="pt-1 mt-1 mb-2">
@@ -21,6 +23,6 @@ const GameHistory = ({ chess }: { chess: ChessInstance }) => (
 	</Paper>
 );
 
-const mapStateToProps = (state: Store) => ({ chess: state.chess.chess });
+const mapStateToProps = (state: Store): GameHistoryProps => ({ chess: state.chess.chess });
 
 export default connect(mapStateToProps)(GameHistory);

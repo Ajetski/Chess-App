@@ -1,10 +1,12 @@
-import React from 'react';
+import { FunctionComponent as Component } from 'react';
 
-export function ModalOpenButton(props: {
+type ModalOpenButtonProps = {
 	'modal-id': string,
 	children: any
 	[other: string]: any
-}) {
+};
+
+export const ModalOpenButton: Component<ModalOpenButtonProps> = (props) => {
 	return (
 		<button type="button"
 			{...props}
@@ -15,10 +17,12 @@ export function ModalOpenButton(props: {
 	);
 }
 
-export function ModalCloseButton(props: {
+type ModalBaseProps = {
 	children: any
 	[other: string]: any
-}) {
+};
+
+export const ModalCloseButton: Component<ModalBaseProps> = (props) => {
 	return (
 		<button type="button"
 			{...props}
@@ -28,10 +32,7 @@ export function ModalCloseButton(props: {
 	);
 }
 
-export function ModalHeader(props: {
-	children: any
-	[other: string]: any
-}) {
+export const ModalHeader: Component<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-header">
 			{props.children}
@@ -39,10 +40,7 @@ export function ModalHeader(props: {
 	);
 }
 
-export function ModalTitle(props: {
-	children: any
-	[other: string]: any
-}) {
+export const ModalTitle: Component<ModalBaseProps> = (props) => {
 	return (
 		<h5 className="modal-title">
 			{props.children}
@@ -50,10 +48,8 @@ export function ModalTitle(props: {
 	);
 }
 
-export function ModalBody(props: {
-	children: any
-	[other: string]: any
-}) {
+
+export const ModalBody: Component<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-body">
 			{props.children}
@@ -61,10 +57,8 @@ export function ModalBody(props: {
 	);
 }
 
-export function ModalFooter(props: {
-	children: any
-	[other: string]: any
-}) {
+
+export const ModalFooter: Component<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-footer">
 			{props.children}
@@ -72,11 +66,13 @@ export function ModalFooter(props: {
 	);
 }
 
-export function Modal(props: {
+type ModalProps = {
 	id: string,
 	children: any
 	[other: string]: any
-}) {
+};
+
+export const Modal: Component<ModalProps> = (props) => {
 	return (
 		<div className="modal" tabIndex={-1} id={props.id}>
 			<div className="modal-dialog">

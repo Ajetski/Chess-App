@@ -1,4 +1,4 @@
-import React from 'react';
+import { FunctionComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import { ChessInstance } from 'chess.js';
 
@@ -6,11 +6,13 @@ import { setChess, setOrientation } from '../actions/chessActions';
 import { copyChess } from '../utils';
 import { Store } from '../store/types';
 
-const GameControl = ({ chess, orientation, dispatch }: {
+type GameControlProps = {
 	chess: ChessInstance,
 	orientation: 'white' | 'black',
 	dispatch: (arg0: any) => void
-}) => (
+};
+
+const GameControl: Component<GameControlProps> = ({ chess, orientation, dispatch }) => (
 	<div className="btn-group mt-3">
 		<button type="button"
 			className="btn btn-secondary "

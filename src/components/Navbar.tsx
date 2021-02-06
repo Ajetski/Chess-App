@@ -1,7 +1,7 @@
-import React from 'react';
+import { FunctionComponent as Component } from 'react';
 import { Link } from "react-router-dom";
 
-const Navbar = () => (
+const Navbar: Component = () => (
 	<ul className="nav justify-content-center">
 		<li className="nav-item">
 			<Link className="nav-link" to="/">
