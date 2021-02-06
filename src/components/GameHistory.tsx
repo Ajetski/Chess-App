@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core'
 import { ChessInstance } from 'chess.js';
 
-import { Store } from '../store/model';
+import { Store } from '../store/types';
 
 const GameHistory = ({ chess }: { chess: ChessInstance }) => (
 	<Paper style={{ height: "500px" }}>

@@ -11,7 +11,7 @@ import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
-import { Store } from '../store/model';
+import { Store } from '../store/types';
 
 function Game({ dispatch, chess }: {
 	dispatch: (arg0: any) => void,

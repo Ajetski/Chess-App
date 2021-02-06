@@ -4,7 +4,7 @@ import { ChessInstance } from 'chess.js';
 
 import { setChess, setOrientation } from '../actions/chessActions';
 import { copyChess } from '../utils';
-import { Store } from '../store/model';
+import { Store } from '../store/types';
 
 const GameControl = ({ chess, orientation, dispatch }: {
 	chess: ChessInstance,
@@ -33,7 +33,6 @@ const GameControl = ({ chess, orientation, dispatch }: {
 		<button type="button"
 			className="btn btn-info"
 			onClick={() => {
-				console.log(orientation);
 				dispatch(setOrientation({ orientation: orientation === 'white' ? 'black' : 'white' }));
 			}}>
 			Flip

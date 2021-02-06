@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { Store } from '../store/model';
+import { Store } from '../store/types';
 
 const Evaluation = ({ engine, chess }: Store) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
