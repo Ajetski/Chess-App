@@ -15,7 +15,6 @@ import {
 	ModalCloseButton
 } from '../components/Modal';
 import configureStore from '../store/configureStore';
-import { setShowModal } from '../actions/modalActions';
 
 const store = configureStore();
 
