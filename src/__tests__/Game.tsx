@@ -15,5 +15,5 @@ const TestGame = () => (
 );
 
 it('renders without crashing', () => {
-	MatchRouter(<TestGame />, "/game/:gameId", " / game / 1");
+	MatchRouter(<TestGame />, "/game/:gameId", "/game/1");
 });
