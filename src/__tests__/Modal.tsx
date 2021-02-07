@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import 'jsdom-worker';
+
 import {
 	Modal,
 	ModalBody,
@@ -9,9 +14,13 @@ import {
 	ModalTitle,
 	ModalCloseButton
 } from '../components/Modal';
+import configureStore from '../store/configureStore';
+import { setShowModal } from '../actions/modalActions';
+
+const store = configureStore();
 
 const TestModal = () => (
-	<>
+	<Provider store={store}>
 		<Modal id="testModal">
 			<ModalHeader>
 				Header
@@ -29,10 +38,10 @@ const TestModal = () => (
 				</ModalCloseButton>
 			</ModalFooter>
 		</Modal>
-		<ModalOpenButton modal-id="testModal">
+		<ModalOpenButton>
 			Open
 		</ModalOpenButton>
-	</>
+	</Provider>
 );
 
 it('renders without crashing', () => {
@@ -40,4 +49,11 @@ it('renders without crashing', () => {
 	ReactDOM.render(<TestModal />, div);
 });
 
-
+it('modal toggle works', () => {
+	render(<TestModal />)
+	expect(screen.getByText('Body')).not.toBeVisible();
+	screen.getByText('Open').click();
+	expect(screen.getByText('Body')).toBeVisible();
+	screen.getByText('Close').click();
+	expect(screen.getByText('Body')).not.toBeVisible();
+});
