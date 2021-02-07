@@ -45,6 +45,7 @@ const Board: Component<BoardProps> = (props) => {
 			dests: toDests(chess),
 			events: {
 				after: (orig: Key, dest: Key, metadata: any) => {
+				after: (orig: Key, dest: Key, metadata: SetPremoveMetadata | undefined) => {
 					chess.move({ from: orig as Square, to: dest as Square });
 					const copy = copyChess(chess);
 					setChess(copy);
@@ -54,6 +55,7 @@ const Board: Component<BoardProps> = (props) => {
 		premovable: {
 			events: {
 				set: (orig: Key, dest: Key, metadata: any) => {
+				set: (orig: Key, dest: Key, metadata: SetPremoveMetadata | undefined) => {
 					setPremove({ from: orig as Square, to: dest as Square });
 				},
 				unset: () => {
