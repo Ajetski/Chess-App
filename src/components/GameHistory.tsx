@@ -5,7 +5,7 @@ import { ChessInstance } from 'chess.js';
 
 import { Store } from '../store/types';
 
-type GameHistoryProps = { chess: ChessInstance };
+interface GameHistoryProps { chess: ChessInstance };
 
 const GameHistory: Component<GameHistoryProps> = ({ chess }) => (
 	<Paper style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}>

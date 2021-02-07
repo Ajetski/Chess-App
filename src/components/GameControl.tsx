@@ -6,7 +6,7 @@ import { setChess, setOrientation } from '../actions/chessActions';
 import { copyChess } from '../utils';
 import { Store } from '../store/types';
 
-type GameControlProps = {
+interface GameControlProps {
 	chess: ChessInstance,
 	orientation: 'white' | 'black',
 	dispatch: (arg0: any) => void

@@ -1,7 +1,7 @@
 import { FunctionComponent as Component } from 'react';
 import { Route, Redirect } from "react-router-dom";
 
-type GuardedRouteProps = {
+interface GuardedRouteProps {
 	auth: boolean,
 	children: any
 	[key: string]: any

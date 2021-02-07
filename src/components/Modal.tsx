@@ -88,7 +88,7 @@ export const ModalFooter: Component<ModalBaseProps> = (props) => {
 	);
 };
 
-type ModalProps = {
+interface ModalProps {
 	id: string,
 	children: any,
 	show: boolean

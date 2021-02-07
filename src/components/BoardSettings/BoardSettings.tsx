@@ -12,7 +12,7 @@ import {
 } from '../Modal';
 import './BoardSettings.css'
 
-type BoardThemeProps = {
+interface BoardThemeProps {
 	name: string,
 	id: string,
 	handleClick: (arg0: any) => void,

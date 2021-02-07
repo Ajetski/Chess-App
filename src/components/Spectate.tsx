@@ -15,7 +15,7 @@ import Evaluation from './Evaluation';
 import GameControl from './GameControl';
 import GameHistory from './GameHistory';
 
-type SpecateProps = {
+interface SpecateProps {
     dispatch: (arg0: any) => void,
     chess: ChessInstance
 };

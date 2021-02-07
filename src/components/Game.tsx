@@ -13,7 +13,7 @@ import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 import { Store } from '../store/types';
 
-type GameProps = {
+interface GameProps {
 	dispatch: (arg0: any) => void,
 	chess: ChessInstance
 };

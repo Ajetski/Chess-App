@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Store, ChessStore, EngineStore } from '../store/types';
 
-type EvaluaitonProps = {
+interface EvaluaitonProps {
 	chess: ChessStore,
 	engine: EngineStore
 };

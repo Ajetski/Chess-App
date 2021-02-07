@@ -15,7 +15,7 @@ import { Config } from 'chessground/config';
 import { Key } from 'chessground/types';
 import { Store } from '../../store/types';
 
-type BoardProps = {
+interface BoardProps {
 	chess: ChessInstance,
 	orientation: 'white' | 'black',
 	width: string,
