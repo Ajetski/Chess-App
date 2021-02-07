@@ -14,7 +14,12 @@ export interface EngineStore {
 	engine: Worker
 };
 
+export interface ModalStore {
+	showModal: boolean
+};
+
 export interface Store {
 	chess: ChessStore,
-	engine: EngineStore
+	engine: EngineStore,
+	modal: ModalStore
 };
