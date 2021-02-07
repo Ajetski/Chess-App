@@ -2,9 +2,14 @@
 import { useState, useEffect, FunctionComponent as Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Store } from '../store/types';
+import { Store, ChessStore, EngineStore } from '../store/types';
 
-const Evaluation: Component<Store> = ({ engine, chess }) => {
+type EvaluaitonProps = {
+	chess: ChessStore,
+	engine: EngineStore
+};
+
+const Evaluation: Component<EvaluaitonProps> = ({ engine, chess }) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
 
 	useEffect(() => {
@@ -33,7 +38,7 @@ const Evaluation: Component<Store> = ({ engine, chess }) => {
 	);
 }
 
-const mapStateToProps = (state: Store): Store => ({
+const mapStateToProps = (state: Store): EvaluaitonProps => ({
 	chess: state.chess,
 	engine: state.engine
 });
