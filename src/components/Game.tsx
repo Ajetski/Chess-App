@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent as Component, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ChessInstance } from 'chess.js';
@@ -11,13 +11,16 @@ import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
-import { Store } from '../store/model';
+import { Store } from '../store/types';
 
-function Game({ dispatch, chess }: {
+interface GameProps {
 	dispatch: (arg0: any) => void,
 	chess: ChessInstance
-}) {
-	const { gameId } = useParams<{ gameId: string }>();
+};
+
+const Game: Component<GameProps> = ({ dispatch, chess }) => {
+	const { gameId: gameIdStr } = useParams<{ gameId: string }>();
+	const gameId = parseInt(gameIdStr);
 
 	const [ws] = useState(new WebSocket(env.wsUrl));
 	const [serverLastState, setServerLastState] = useState(chess.pgn());
@@ -78,7 +81,7 @@ function Game({ dispatch, chess }: {
 	);
 };
 
-const mapStateToProps = (state: Store, ownProps: any) =>
+const mapStateToProps = (state: Store, ownProps: any): GameProps =>
 	({ ...ownProps, chess: state.chess.chess });
 
 export default connect(mapStateToProps)(Game);

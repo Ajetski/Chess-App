@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { FunctionComponent as Component, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Table from '@material-ui/core/Table';
@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 
 import env from '../env/env';
 
-export default function SelectGame() {
+const SelectGame: Component = () => {
     const [rows, setRows] = useState<{ id: string, numMoves: number }[]>([]);
     const history = useHistory();
 
@@ -52,3 +52,5 @@ export default function SelectGame() {
         </TableContainer >
     );
 }
+
+export default SelectGame;

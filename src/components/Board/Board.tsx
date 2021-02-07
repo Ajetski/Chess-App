@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
+import { FunctionComponent as Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
@@ -12,9 +12,10 @@ import './styles/chessground.css';
 import './styles/theme.css';
 import { Square } from 'chess.js';
 import { Config } from 'chessground/config';
-import { Key } from 'chessground/types';
+import { Key, SetPremoveMetadata } from 'chessground/types';
+import { Store } from '../../store/types';
 
-function Board(props: {
+interface BoardProps {
 	chess: ChessInstance,
 	orientation: 'white' | 'black',
 	width: string,
@@ -24,7 +25,10 @@ function Board(props: {
 	maxDepth: number,
 	engine: Worker,
 	dispatch: (arg0: any) => void
-}) {
+};
+
+
+const Board: Component<BoardProps> = (props) => {
 	const [chess, setChess] = useState(props.chess);
 	const [cg, setCg] = useState<Api>();
 	const [premove, setPremove] = useState<ShortMove>();
@@ -40,7 +44,7 @@ function Board(props: {
 			free: false,
 			dests: toDests(chess),
 			events: {
-				after: (orig: Key, dest: Key, metadata: any) => {
+				after: (orig: Key, dest: Key, metadata: SetPremoveMetadata | undefined) => {
 					chess.move({ from: orig as Square, to: dest as Square });
 					const copy = copyChess(chess);
 					setChess(copy);
@@ -49,7 +53,7 @@ function Board(props: {
 		},
 		premovable: {
 			events: {
-				set: (orig: Key, dest: Key, metadata: any) => {
+				set: (orig: Key, dest: Key, metadata: SetPremoveMetadata | undefined) => {
 					setPremove({ from: orig as Square, to: dest as Square });
 				},
 				unset: () => {
@@ -141,7 +145,7 @@ Board.defaultProps = {
 	height: '720px'
 };
 
-function mapStateToProps(state: any, ownProps: any) {
+const mapStateToProps = (state: Store, ownProps: any) => {
 	return {
 		chess: state.chess.chess,
 		orientation: state.chess.orientation,

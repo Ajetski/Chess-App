@@ -1,7 +1,16 @@
+import { ChessInstance } from "chess.js";
 const Chess = require('chess.js');
 
+let chessInstance: ChessInstance;
+
+try {
+	chessInstance = new Chess();
+} catch {
+	chessInstance = new Chess.Chess();
+}
+
 const initialState = {
-	chess: new Chess(),
+	chess: chessInstance,
 	orientation: 'white'
 };
 

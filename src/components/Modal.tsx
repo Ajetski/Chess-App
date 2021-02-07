@@ -1,89 +1,113 @@
-import React from 'react';
+import { FunctionComponent as Component } from 'react';
+import { connect } from 'react-redux';
 
-export function ModalOpenButton(props: {
-	'modal-id': string,
-	children: any
+import { Store } from '../store/types';
+import { setShowModal } from '../actions/modalActions';
+
+interface ModalOpenButtonBaseProps {
+	children: any,
+	onClick?: (arg0: any) => void,
 	[other: string]: any
-}) {
+};
+
+interface ModalOpenButtonProps extends ModalOpenButtonBaseProps {
+	dispatch: (arg0: any) => void
+};
+
+export const ModalOpenButtonComponent: Component<ModalOpenButtonProps> = ({ children, onClick, dispatch, ...props }) => {
 	return (
 		<button type="button"
 			{...props}
-			data-bs-toggle="modal"
-			data-bs-target={`#${props['modal-id']}`}>
-			{props.children}
+			onClick={onClick ? () => {
+				onClick('open');
+				dispatch(setShowModal({ showModal: true }));
+			} : () => { dispatch(setShowModal({ showModal: true })) }}>
+			{children}
 		</button>
 	);
-}
+};
 
-export function ModalCloseButton(props: {
+export const ModalOpenButton = connect((state: Store, ownProps: ModalOpenButtonBaseProps) => ownProps)(ModalOpenButtonComponent);
+
+interface ModalBaseProps {
+	data?: any,
 	children: any
+	onClick?: (arg0: any) => void
 	[other: string]: any
-}) {
+};
+
+interface ModalCloseButtonProps extends ModalBaseProps {
+	dispatch: (arg0: any) => void
+};
+
+export const ModalCloseButtonComponent: Component<ModalCloseButtonProps> = ({ data, dispatch, children, onClick, ...props }) => {
 	return (
 		<button type="button"
 			{...props}
-			data-bs-dismiss="modal">
-			{props.children}
+			onClick={onClick ? () => {
+				onClick(data);
+				dispatch(setShowModal({ showModal: false }));
+			} : () => { dispatch(setShowModal({ showModal: false })) }}>
+			{children}
 		</button>
 	);
-}
+};
 
-export function ModalHeader(props: {
-	children: any
-	[other: string]: any
-}) {
+export const ModalCloseButton = connect((state: Store, ownProps: ModalBaseProps) => ownProps)(ModalCloseButtonComponent);
+
+export const ModalHeader: Component<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-header">
 			{props.children}
 		</div>
 	);
-}
+};
 
-export function ModalTitle(props: {
-	children: any
-	[other: string]: any
-}) {
+export const ModalTitle: Component<ModalBaseProps> = (props) => {
 	return (
 		<h5 className="modal-title">
 			{props.children}
 		</h5>
 	);
-}
+};
 
-export function ModalBody(props: {
-	children: any
-	[other: string]: any
-}) {
+
+export const ModalBody: Component<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-body">
 			{props.children}
 		</div>
 	);
-}
+};
 
-export function ModalFooter(props: {
-	children: any
-	[other: string]: any
-}) {
+export const ModalFooter: Component<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-footer">
 			{props.children}
 		</div>
 	);
-}
+};
 
-export function Modal(props: {
+interface ModalProps {
 	id: string,
-	children: any
-	[other: string]: any
-}) {
+	children: any,
+	show: boolean
+};
+
+const ModalComponent: Component<ModalProps> = ({ id, children, show }) => {
 	return (
-		<div className="modal" tabIndex={-1} id={props.id}>
+		<div className="modal" style={{ display: show ? 'block' : 'none' }} tabIndex={-1} id={id}>
 			<div className="modal-dialog">
 				<div className="modal-content">
-					{props.children}
+					{children}
 				</div>
 			</div>
 		</div>
 	);
-}
+};
+
+const mapStateToProps = (state: Store, { id, children }: { id: string, children: any }): ModalProps => ({
+	id, children, show: state.modal.showModal
+});
+
+export const Modal = connect(mapStateToProps)(ModalComponent);

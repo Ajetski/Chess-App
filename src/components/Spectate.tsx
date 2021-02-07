@@ -1,24 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import { FunctionComponent as Component, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { ChessInstance } from 'chess.js';
 
 import env from '../env/env';
 import { pgnToChess } from '../utils';
 import { connectToGame, stayConnected } from '../ws/actions/gameActions';
+import { Store } from '../store/types';
 import { setOrientation, setChess } from '../actions/chessActions';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import Evaluation from './Evaluation';
 import GameControl from './GameControl';
 import GameHistory from './GameHistory';
-import { ChessInstance } from 'chess.js';
 
-function Spectate({ dispatch, chess }: {
+interface SpecateProps {
     dispatch: (arg0: any) => void,
     chess: ChessInstance
-}) {
-    const { gameId } = useParams<{ gameId: string }>();
+};
+
+const Spectate: Component<SpecateProps> = ({ dispatch, chess }) => {
+    const { gameId: gameIdStr } = useParams<{ gameId: string }>();
+    const gameId = parseInt(gameIdStr);
 
     const [ws] = useState(new WebSocket(env.wsUrl));
 
@@ -69,6 +73,6 @@ function Spectate({ dispatch, chess }: {
     );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => ({ ...ownProps, chess: state.chess.chess });
+const mapStateToProps = (state: Store) => ({ chess: state.chess.chess });
 
 export default connect(mapStateToProps)(Spectate);
