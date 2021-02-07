@@ -27,7 +27,7 @@ const BoardTheme: Component<BoardThemeProps> = (props) => {
 				className={`btn btn-${active ? 'primary' : 'secondary'}`}
 				disabled={active}
 				onClick={props.handleClick}
-				data-id={props.id}>
+				data={props.id}>
 				{props.name}
 			</ModalCloseButton>
 		</div>
@@ -50,8 +50,8 @@ export default function BoardSettings() {
 		setTheme(newTheme);
 	};
 
-	const handleChangeTheme = (e: any) => {
-		changeTheme(e.currentTarget.dataset.id)
+	const handleChangeTheme = (data: string) => {
+		changeTheme(data);
 	};
 
 	useEffect(() => {
