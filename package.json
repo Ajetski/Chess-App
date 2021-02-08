@@ -42,6 +42,7 @@
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "4.0.1",
 		"redux": "^4.0.5",
+		"use-sound": "^2.0.1",
 		"uuid": "^8.3.2",
 		"web-vitals": "^0.2.4"
 	},
