@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
 import { ChessInstance, ShortMove } from 'chess.js';
+import useSound from 'use-sound';
 
 import { toDests, toColor, copyChess } from '../../utils';
 import { setChess as setChessRedux } from '../../actions/chessActions';
@@ -14,6 +15,9 @@ import { Square } from 'chess.js';
 import { Config } from 'chessground/config';
 import { Key, SetPremoveMetadata } from 'chessground/types';
 import { Store } from '../../store/types';
+
+import MoveSound from './sounds/Move.ogg';
+import CaptureSound from './sounds/Capture.ogg';
 
 interface BoardProps {
 	chess: ChessInstance,
@@ -33,6 +37,8 @@ const Board: Component<BoardProps> = (props) => {
 	const [cg, setCg] = useState<Api>();
 	const [premove, setPremove] = useState<ShortMove>();
 	const [boardRef, setBoardRef] = useState<HTMLDivElement>();
+	const [playMoveSound] = useSound(MoveSound);
+	const [playCaptureSound] = useSound(CaptureSound);
 
 	const config: Config = {
 		orientation: props.orientation,
@@ -123,8 +129,17 @@ const Board: Component<BoardProps> = (props) => {
 
 	useEffect(() => {
 		props.dispatch(setChessRedux({ chess }));
+
 		if (cg) {
 			cg.set(config);
+		}
+
+		if (chess && chess.history().length >= 1) {
+			if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
+				playCaptureSound();
+			} else {
+				playMoveSound();
+			}
 		}
 	}, [chess]);
 
