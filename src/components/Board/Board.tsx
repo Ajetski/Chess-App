@@ -18,6 +18,7 @@ import { Store } from '../../store/types';
 
 import MoveSound from './sounds/Move.ogg';
 import CaptureSound from './sounds/Capture.ogg';
+import GameFinishedSound from './sounds/GenericNotify.ogg';
 
 interface BoardProps {
 	chess: ChessInstance,
@@ -39,6 +40,7 @@ const Board: Component<BoardProps> = (props) => {
 	const [boardRef, setBoardRef] = useState<HTMLDivElement>();
 	const [playMoveSound] = useSound(MoveSound);
 	const [playCaptureSound] = useSound(CaptureSound);
+	const [playGameFinishedSound] = useSound(GameFinishedSound);
 
 	const config: Config = {
 		orientation: props.orientation,
@@ -135,7 +137,10 @@ const Board: Component<BoardProps> = (props) => {
 		}
 
 		if (chess && chess.history().length >= 1) {
-			if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
+			if (chess.game_over()) {
+				playGameFinishedSound();
+			}
+			else if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
 				playCaptureSound();
 			} else {
 				playMoveSound();
