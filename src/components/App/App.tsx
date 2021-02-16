@@ -5,21 +5,23 @@ import {
 	Switch
 } from 'react-router-dom';
 
-import GuardedRoute from './GuardedRoute';
-import Home from './Home';
-import Game from './Game';
-import Analysis from './Analysis';
-import Spectate from './Spectate';
-import Navbar from './Navbar';
+import GuardedRoute from '../GuardedRoute';
+import Home from '../Home';
+import Game from '../Game';
+import Analysis from '../Analysis';
+import Spectate from '../Spectate';
+import Navbar from '../Navbar';
+
+import './App.scss'
 
 const App: FC = () => (
-	<div className="container">
+	<div className="app-grid">
 		<Router>
-			<div className="row mb-2">
+			<div className="header mb-2">
 				<h3 className="my-auto mr-3">Chess App</h3>
 				<Navbar />
 			</div>
-			<div className="row">
+			<div className="body">
 				<Switch>
 					<Route path="/" exact>
 						<Home />
