@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import App from './components/App';
 import configureStore from './store/configureStore';
-import './index.css'
+import './index.scss'
+import './spacing.scss';
 
 const store = configureStore();
 
