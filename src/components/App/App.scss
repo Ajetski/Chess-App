@@ -1,0 +1,23 @@
+.app-grid {
+	display: grid;
+	grid-template-areas:
+		". header ."
+		". body   .     ";
+	grid-template-columns: 1fr 80% 1fr;
+	grid-template-rows: auto;
+}
+
+.logo {
+	grid-area: logo;
+	align-self: right;
+}
+
+.header {
+	grid-area: header;
+	display: flex;
+}
+
+
+.body {
+	grid-area: body;
+}
