@@ -1,4 +1,4 @@
-import { FunctionComponent as Component } from 'react';
+import { FC } from 'react';
 import {
 	BrowserRouter as Router,
 	Route,
@@ -12,7 +12,7 @@ import Analysis from './Analysis';
 import Spectate from './Spectate';
 import Navbar from './Navbar';
 
-const App: Component = () => (
+const App: FC = () => (
 	<div className="container">
 		<Router>
 			<div className="row mb-2">

@@ -1,4 +1,4 @@
-import React, { FunctionComponent as Component } from 'react';
+import React, { FC } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core'
 import { ChessInstance } from 'chess.js';
@@ -7,7 +7,7 @@ import { Store } from '../store/types';
 
 interface GameHistoryProps { chess: ChessInstance };
 
-const GameHistory: Component<GameHistoryProps> = ({ chess }) => (
+const GameHistory: FC<GameHistoryProps> = ({ chess }) => (
 	<Paper style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}>
 		{chess ?
 			<div className="pt-1 mt-1 mb-2">

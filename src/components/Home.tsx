@@ -1,4 +1,4 @@
-import { FunctionComponent as Component, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,7 +14,7 @@ import {
 	ModalCloseButton
 } from "./Modal";
 
-const Home: Component = () => {
+const Home: FC = () => {
 	const [gameId, setGameId] = useState('');
 	const [color, setColor] = useState('');
 	const history = useHistory();

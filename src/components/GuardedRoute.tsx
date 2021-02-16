@@ -1,4 +1,4 @@
-import { FunctionComponent as Component } from 'react';
+import { FC } from 'react';
 import { Route, Redirect } from "react-router-dom";
 
 interface GuardedRouteProps {
@@ -7,7 +7,7 @@ interface GuardedRouteProps {
 	[key: string]: any
 };
 
-const GuardedRoute: Component<GuardedRouteProps> = ({ auth, children, ...rest }) => {
+const GuardedRoute: FC<GuardedRouteProps> = ({ auth, children, ...rest }) => {
 	return (
 		<Route {...rest} render={(props) => (
 			auth === true

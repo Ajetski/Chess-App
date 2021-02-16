@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FunctionComponent as Component, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import {
 	Modal,
@@ -19,7 +19,7 @@ interface BoardThemeProps {
 	currentTheme: string
 };
 
-const BoardTheme: Component<BoardThemeProps> = (props) => {
+const BoardTheme: FC<BoardThemeProps> = (props) => {
 	const active = props.currentTheme === props.id;
 	return (
 		<div className="row my-2 ml-5">

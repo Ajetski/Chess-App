@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FunctionComponent as Component, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ChessInstance } from 'chess.js';
@@ -20,7 +20,7 @@ interface SpecateProps {
     chess: ChessInstance
 };
 
-const Spectate: Component<SpecateProps> = ({ dispatch, chess }) => {
+const Spectate: FC<SpecateProps> = ({ dispatch, chess }) => {
     const { gameId: gameIdStr } = useParams<{ gameId: string }>();
     const gameId = parseInt(gameIdStr);
 

@@ -1,4 +1,4 @@
-import { FunctionComponent as Component } from 'react';
+import { FC } from 'react';
 import { connect } from 'react-redux';
 
 import { Store } from '../store/types';
@@ -14,7 +14,7 @@ interface ModalOpenButtonProps extends ModalOpenButtonBaseProps {
 	dispatch: (arg0: any) => void
 };
 
-export const ModalOpenButtonComponent: Component<ModalOpenButtonProps> = ({ children, onClick, dispatch, ...props }) => {
+export const ModalOpenButtonComponent: FC<ModalOpenButtonProps> = ({ children, onClick, dispatch, ...props }) => {
 	return (
 		<button type="button"
 			{...props}
@@ -40,7 +40,7 @@ interface ModalCloseButtonProps extends ModalBaseProps {
 	dispatch: (arg0: any) => void
 };
 
-export const ModalCloseButtonComponent: Component<ModalCloseButtonProps> = ({ data, dispatch, children, onClick, ...props }) => {
+export const ModalCloseButtonComponent: FC<ModalCloseButtonProps> = ({ data, dispatch, children, onClick, ...props }) => {
 	return (
 		<button type="button"
 			{...props}
@@ -55,7 +55,7 @@ export const ModalCloseButtonComponent: Component<ModalCloseButtonProps> = ({ da
 
 export const ModalCloseButton = connect((state: Store, ownProps: ModalBaseProps) => ownProps)(ModalCloseButtonComponent);
 
-export const ModalHeader: Component<ModalBaseProps> = (props) => {
+export const ModalHeader: FC<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-header">
 			{props.children}
@@ -63,7 +63,7 @@ export const ModalHeader: Component<ModalBaseProps> = (props) => {
 	);
 };
 
-export const ModalTitle: Component<ModalBaseProps> = (props) => {
+export const ModalTitle: FC<ModalBaseProps> = (props) => {
 	return (
 		<h5 className="modal-title">
 			{props.children}
@@ -72,7 +72,7 @@ export const ModalTitle: Component<ModalBaseProps> = (props) => {
 };
 
 
-export const ModalBody: Component<ModalBaseProps> = (props) => {
+export const ModalBody: FC<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-body">
 			{props.children}
@@ -80,7 +80,7 @@ export const ModalBody: Component<ModalBaseProps> = (props) => {
 	);
 };
 
-export const ModalFooter: Component<ModalBaseProps> = (props) => {
+export const ModalFooter: FC<ModalBaseProps> = (props) => {
 	return (
 		<div className="modal-footer">
 			{props.children}
@@ -94,7 +94,7 @@ interface ModalProps {
 	show: boolean
 };
 
-const ModalComponent: Component<ModalProps> = ({ id, children, show }) => {
+const ModalComponent: FC<ModalProps> = ({ id, children, show }) => {
 	return (
 		<div className="modal" style={{ display: show ? 'block' : 'none' }} tabIndex={-1} id={id}>
 			<div className="modal-dialog">

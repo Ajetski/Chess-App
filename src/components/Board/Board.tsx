@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FunctionComponent as Component, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
@@ -33,7 +33,7 @@ interface BoardProps {
 };
 
 
-const Board: Component<BoardProps> = (props) => {
+const Board: FC<BoardProps> = (props) => {
 	const [chess, setChess] = useState(props.chess);
 	const [cg, setCg] = useState<Api>();
 	const [premove, setPremove] = useState<ShortMove>();

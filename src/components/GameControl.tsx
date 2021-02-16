@@ -1,4 +1,4 @@
-import { FunctionComponent as Component } from 'react';
+import { FC } from 'react';
 import { connect } from 'react-redux';
 import { ChessInstance } from 'chess.js';
 
@@ -12,7 +12,7 @@ interface GameControlProps {
 	dispatch: (arg0: any) => void
 };
 
-const GameControl: Component<GameControlProps> = ({ chess, orientation, dispatch }) => (
+const GameControl: FC<GameControlProps> = ({ chess, orientation, dispatch }) => (
 	<div className="btn-group mt-3">
 		<button type="button"
 			className="btn btn-secondary "

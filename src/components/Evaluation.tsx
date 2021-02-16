@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, FunctionComponent as Component } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { connect } from 'react-redux';
 
 import { Store, ChessStore, EngineStore } from '../store/types';
@@ -9,7 +9,7 @@ interface EvaluaitonProps {
 	engine: EngineStore
 };
 
-const Evaluation: Component<EvaluaitonProps> = ({ engine, chess }) => {
+const Evaluation: FC<EvaluaitonProps> = ({ engine, chess }) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
 
 	useEffect(() => {

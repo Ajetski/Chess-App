@@ -1,4 +1,4 @@
-import { FunctionComponent as Component, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Table from '@material-ui/core/Table';
@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 
 import env from '../env/env';
 
-const SelectGame: Component = () => {
+const SelectGame: FC = () => {
     const [rows, setRows] = useState<{ id: string, numMoves: number }[]>([]);
     const history = useHistory();
 
