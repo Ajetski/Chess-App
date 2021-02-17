@@ -1,0 +1,45 @@
+/*
+ * Board
+ */
+
+$boards: (
+  "blue": "blue.svg",
+  "blue2": "blue2.jpg",
+  "purple-diag": "purple-diag.png",
+);
+
+@each $board, $filename in $boards {
+  .cg-wrap.#{$board} {
+    background-image: url("../images/board/" + $filename);
+    background-size: 100% 100%;
+  }
+}
+
+$colors: (
+  "white": "w",
+  "black": "b"
+);
+
+$pieces: (
+  "pawn": "P",
+  "bishop": "B",
+  "knight": "N",
+  "rook": "R",
+  "queen": "Q",
+  "king": "K"
+);
+
+$pieceThemes: (
+  "merida",
+  "horsey"
+);
+
+@each $colorClass, $color in $colors {
+  @each $pieceClass, $piece in $pieces {
+    @each $theme in $pieceThemes {
+      .cg-wrap piece.#{$pieceClass}.#{$colorClass}.#{$theme} {
+        background-image: url("../images/pieces/" + $theme + "/" + $color + $piece + ".svg");
+      }
+    }
+  }
+}
