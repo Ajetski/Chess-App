@@ -12,14 +12,14 @@ import {
 } from '../Modal';
 import './BoardSettings.css'
 
-interface BoardThemeProps {
+interface ThemeProps {
 	name: string,
 	id: string,
 	handleClick: (arg0: any) => void,
 	currentTheme: string
 };
 
-const BoardTheme: FC<BoardThemeProps> = (props) => {
+const Theme: FC<ThemeProps> = (props) => {
 	const active = props.currentTheme === props.id;
 	return (
 		<div className="row my-2 ml-5">
@@ -35,28 +35,40 @@ const BoardTheme: FC<BoardThemeProps> = (props) => {
 }
 
 export default function BoardSettings() {
-	const [theme, setTheme] = useState(localStorage.getItem('board-theme') || 'blue2');
+	const [boardTheme, setBoardTheme] = useState(localStorage.getItem('board-theme') || 'blue2');
+	const [pieceTheme, setPieceTheme] = useState(localStorage.getItem('piece-theme') || 'merida');
 
-	const changeTheme = (newTheme: string) => {
+	const changeBoardTheme = (newTheme: string) => {
 		localStorage.setItem('board-theme', newTheme);
 		const boards = document.getElementsByClassName('cg-wrap');
 		for (let i = 0; i < boards.length; i++) {
 			const board = boards.item(i);
 			if (board) {
-				board.classList.remove(theme);
+				board.classList.remove(boardTheme);
 				board.classList.add(newTheme);
 			}
 		}
-		setTheme(newTheme);
+		setBoardTheme(newTheme);
 	};
 
-	const handleChangeTheme = (data: string) => {
-		changeTheme(data);
+	const changePieceTheme = (newTheme: string) => {
+		localStorage.setItem('piece-theme', newTheme);
+		const pieces = document.getElementsByTagName('piece');
+		for (let i = 0; i < pieces.length; i++) {
+			const piece = pieces.item(i);
+			if (piece) {
+				piece.classList.remove(pieceTheme);
+				piece.classList.add(newTheme);
+			}
+		}
+		setPieceTheme(newTheme);
 	};
 
 	useEffect(() => {
-		const localTheme = localStorage.getItem('board-theme');
-		changeTheme(localTheme || 'blue2');
+		setTimeout(() => {
+			changeBoardTheme(localStorage.getItem('board-theme') || 'blue2');
+			changePieceTheme(localStorage.getItem('piece-theme') || 'merida');
+		});
 	}, []);
 
 	return (
@@ -71,21 +83,32 @@ export default function BoardSettings() {
 					<ModalTitle>Board Settings</ModalTitle>
 				</ModalHeader>
 				<ModalBody>
-					<p>Select a board:</p>
-					<BoardTheme name="Blue"
+					<p>Select a board theme:</p>
+					<Theme name="Blue"
 						id="blue"
-						handleClick={handleChangeTheme}
-						currentTheme={theme}
+						handleClick={changeBoardTheme}
+						currentTheme={boardTheme}
 					/>
-					<BoardTheme name="Blue 2"
+					<Theme name="Blue 2"
 						id="blue2"
-						handleClick={handleChangeTheme}
-						currentTheme={theme}
+						handleClick={changeBoardTheme}
+						currentTheme={boardTheme}
 					/>
-					<BoardTheme name="Purple Diag"
+					<Theme name="Purple Diag"
 						id="purple-diag"
-						handleClick={handleChangeTheme}
-						currentTheme={theme}
+						handleClick={changeBoardTheme}
+						currentTheme={boardTheme}
+					/>
+					<p>Select a piece theme:</p>
+					<Theme name="Merida"
+						id="merida"
+						handleClick={changePieceTheme}
+						currentTheme={pieceTheme}
+					/>
+					<Theme name="Horsey"
+						id="horsey"
+						handleClick={changePieceTheme}
+						currentTheme={pieceTheme}
 					/>
 				</ModalBody>
 				<ModalFooter>
