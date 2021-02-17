@@ -10,7 +10,7 @@ import { toDests, toColor, copyChess } from '../../utils';
 import { setChess as setChessRedux } from '../../actions/chessActions';
 import { updateEval } from '../../actions/engineActions';
 import './styles/chessground.css';
-import './styles/theme.css';
+import './styles/theme.scss';
 import { Square } from 'chess.js';
 import { Config } from 'chessground/config';
 import { Key, SetPremoveMetadata } from 'chessground/types';
@@ -130,8 +130,6 @@ const Board: FC<BoardProps> = (props) => {
 	}, [props.orientation]);
 
 	useEffect(() => {
-		props.dispatch(setChessRedux({ chess }));
-
 		if (cg) {
 			cg.set(config);
 		}
@@ -146,6 +144,8 @@ const Board: FC<BoardProps> = (props) => {
 				playMoveSound();
 			}
 		}
+
+		props.dispatch(setChessRedux({ chess }));
 	}, [chess]);
 
 	return (
