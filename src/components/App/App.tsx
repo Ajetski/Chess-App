@@ -13,6 +13,7 @@ import Spectate from '../Spectate';
 import Navbar from '../Navbar';
 
 import './App.scss'
+import Contact from '../Contact';
 
 const App: FC = () => (
 	<div className="app-grid">
@@ -28,6 +29,9 @@ const App: FC = () => (
 					</Route>
 					<Route path="/analysis">
 						<Analysis />
+					</Route>
+					<Route path="/contact">
+						<Contact />
 					</Route>
 					<Route path="/game/watch/:gameId">
 						<Spectate />

@@ -17,6 +17,13 @@ const Navbar: FC = () => (
 				</button>
 			</Link>
 		</li>
+		<li className="nav-item">
+			<Link className="nav-link" to="/contact">
+				<button className="btn btn-primary">
+					Contact Us
+				</button>
+			</Link>
+		</li>
 	</ul>
 );
 
