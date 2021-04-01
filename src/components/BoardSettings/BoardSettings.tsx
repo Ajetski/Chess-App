@@ -1,15 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
-import {
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
-	ModalOpenButton,
-	ModalTitle,
-	ModalCloseButton
-} from '../Modal';
 import './BoardSettings.css'
 
 interface ThemeProps {
@@ -20,23 +13,24 @@ interface ThemeProps {
 };
 
 const Theme: FC<ThemeProps> = (props) => {
+	console.log(props.id)
 	const active = props.currentTheme === props.id;
 	return (
-		<div className="row my-2 ml-5">
-			<ModalCloseButton
-				className={`btn btn-${active ? 'primary' : 'secondary'}`}
-				disabled={active}
-				onClick={props.handleClick}
-				data={props.id}>
-				{props.name}
-			</ModalCloseButton>
-		</div>
+		<Button variant={active? 'primary' : 'secondary'}
+		disabled={active}
+		onClick={() => props.handleClick(props.id)}
+		>
+		{props.name}</Button>
 	);
 }
 
 export default function BoardSettings() {
 	const [boardTheme, setBoardTheme] = useState(localStorage.getItem('board-theme') || 'blue2');
 	const [pieceTheme, setPieceTheme] = useState(localStorage.getItem('piece-theme') || 'merida');
+	const [showModal, setShowModal] = useState(false);
+
+	const handleClose = () => setShowModal(false);
+ 	const handleShow = () => setShowModal(true);
 
 	const changeBoardTheme = (newTheme: string) => {
 		localStorage.setItem('board-theme', newTheme);
@@ -73,16 +67,14 @@ export default function BoardSettings() {
 
 	return (
 		<div className="settingsBox mt-4">
-			<ModalOpenButton
-				className="btn btn-primary"
-				modal-id="settingsModal">
+			<Button variant="primary" onClick={handleShow} className="mt-2">
 				Settings
-			</ModalOpenButton>
-			<Modal id="settingsModal">
-				<ModalHeader>
-					<ModalTitle>Board Settings</ModalTitle>
-				</ModalHeader>
-				<ModalBody>
+			</Button>
+			<Modal show={showModal} onHide={handleClose} id="settingsModal">
+				<Modal.Header closeButton>
+					<Modal.Title>Board Settings</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
 					<p>Select a board theme:</p>
 					<Theme name="Blue"
 						id="blue"
@@ -110,10 +102,10 @@ export default function BoardSettings() {
 						handleClick={changePieceTheme}
 						currentTheme={pieceTheme}
 					/>
-				</ModalBody>
-				<ModalFooter>
-					<ModalCloseButton className="btn btn-danger">Close</ModalCloseButton>
-				</ModalFooter>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>Close</Button>
+				</Modal.Footer>
 			</Modal>
 		</div>
 	);
