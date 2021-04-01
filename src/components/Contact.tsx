@@ -1,6 +1,8 @@
 import { ChangeEvent, FC, useState } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from "@material-ui/core/TextField";
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner'
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 import env from '../env/env';
@@ -28,20 +30,28 @@ const Contact: FC = () => {
     };
 
     return (
-        <div className="col-xl-8 col-12">
-            <p>
-                Use the textbox below to leave a message to the developers with your suggestions, comments or bug reports.
-            </p>
-            <div className="mx-auto w-l-75 w-100" >
-                <TextField id="contactBox" value={enteredText} label="Tell us what you think!" disabled={submitting}
-                    variant="filled" multiline={true} rows={5} fullWidth={true}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => setEnteredText(event.target.value)} />
-                <button className="btn btn-primary mt-3" onClick={() => SubmitFeedback(enteredText)} disabled={enteredText === ''} >
-                    Submit
-                </button>
-                <span>{statusMessage} {submitting && <CircularProgress />}</span>
-            </div>
-        </div>
+        <Col xl={8} className="col-12">
+            <Form.Group controlId="formContact" className="mx-auto w-l-75 w-100">
+                <Form.Label>
+                    Leave a message to the developers with your suggestions, comments or bug reports.
+                </Form.Label>
+                <Form.Control
+                    id="contactBox" 
+                    as="textarea"
+                    rows={3}
+                    value={enteredText} 
+                    placeholder="Tell us what you think!" 
+                    disabled={submitting}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => setEnteredText(event.target.value)}>
+
+                    </Form.Control>
+            </Form.Group>
+            <Button variant="primary" className="mt-3 mr-2" onClick={() => SubmitFeedback(enteredText)} disabled={enteredText === ''} >
+                Submit
+            </Button>
+            {submitting && <Spinner className="mr-2" animation="border" role="status"/>}
+            <span>{statusMessage}</span>
+        </Col>
     );
 }
 
