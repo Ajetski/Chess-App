@@ -1,30 +1,27 @@
 import { FC } from 'react';
-import { Link } from "react-router-dom";
+import { Nav, Navbar as NavBar, Button } from "react-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap'
 
 const Navbar: FC = () => (
-	<ul className="nav justify-content-center">
-		<li className="nav-item">
-			<Link className="nav-link" to="/">
-				<button className="btn btn-primary">
-					Home
-				</button>
-			</Link>
-		</li>
-		<li className="nav-item">
-			<Link className="nav-link" to="/analysis">
-				<button className="btn btn-primary">
-					Analysis
-				</button>
-			</Link>
-		</li>
-		<li className="nav-item">
-			<Link className="nav-link" to="/contact">
-				<button className="btn btn-primary">
-					Contact Us
-				</button>
-			</Link>
-		</li>
-	</ul>
+	<NavBar>
+		<Nav className="justify-content-center">
+			
+				<LinkContainer to="/">
+					<Nav.Link><Button variant="primary">Home</Button></Nav.Link>
+				</LinkContainer>
+			
+			
+			<LinkContainer to="/analysis">
+				<Nav.Link><Button variant="primary">Analysis</Button></Nav.Link>
+			</LinkContainer>
+			
+			
+			<LinkContainer to="/contact">
+				<Nav.Link><Button variant="primary">Contact Us
+			</Button></Nav.Link>
+			</LinkContainer>
+		</Nav>
+	</NavBar>
 );
 
 export default Navbar;
