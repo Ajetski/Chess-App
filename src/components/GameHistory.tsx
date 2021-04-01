@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { connect } from 'react-redux';
-import { Paper } from '@material-ui/core'
+import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
 import { ChessInstance } from 'chess.js';
 
 import { Store } from '../store/types';
@@ -8,19 +10,19 @@ import { Store } from '../store/types';
 interface GameHistoryProps { chess: ChessInstance };
 
 const GameHistory: FC<GameHistoryProps> = ({ chess }) => (
-	<Paper style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}>
+	<Card bg="dark" style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}>
 		{chess ?
-			<div className="pt-1 mt-1 mb-2">
+			<Card.Text className="pt-1 mt-1 mb-2">
 				{chess.history().length > 0 && chess.pgn({ newline_char: '\n', max_width: 5 }).split('\n').map(row => (
-					<div key={row} className="row">
-						<div className="col-2" style={{ textAlign: 'center' }}>{row.split(' ')[0]}</div>
-						<div className="col-5">{row.split(' ')[1]}</div>
-						<div className="col-5">{row.split(' ')[2] || '...'}</div>
-					</div>
+					<Row key={row} className="row">
+						<Col xs={2} style={{ textAlign: 'center' }}>{row.split(' ')[0]}</Col>
+						<Col xs={5} >{row.split(' ')[1]}</Col>
+						<Col xs={5} >{row.split(' ')[2] || '...'}</Col>
+					</Row>
 				))}
-			</div> : <p>chess is undefined</p>
+			</Card.Text> : <p>chess is undefined</p>
 		}
-	</Paper>
+	</Card>
 );
 
 const mapStateToProps = (state: Store): GameHistoryProps => ({ chess: state.chess.chess });
