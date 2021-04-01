@@ -3,6 +3,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ChessInstance } from 'chess.js';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 import env from '../env/env';
 import { pgnToChess } from '../utils';
@@ -67,17 +69,17 @@ const Game: FC<GameProps> = ({ dispatch, chess }) => {
 	}, [chess]);
 
 	return (
-		<>
-			<div className="col-xl-8 col-12">
-				<div className="mx-auto" style={{ width: 'fit-content' }}>
-					<Board />
-					<BoardSettings />
-				</div>
-			</div>
-			<div className="col-xl-4 mt-3">
-				<GameHistory />
-			</div>
-		</>
+			<Row>
+				<Col xl={8} xs={12}>
+					<div className="mx-auto" style={{ width: 'fit-content' }}>
+						<Board />
+						<BoardSettings />
+					</div>
+				</Col>
+				<Col xs xl={4} className="mt-3">
+					<GameHistory />
+				</Col>
+			</Row>
 	);
 };
 
