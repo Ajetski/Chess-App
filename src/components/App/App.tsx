@@ -4,6 +4,7 @@ import {
 	Route,
 	Switch
 } from 'react-router-dom';
+import Container from 'react-bootstrap/Container'
 
 import GuardedRoute from '../GuardedRoute';
 import Home from '../Home';
@@ -16,7 +17,7 @@ import './App.scss'
 import Contact from '../Contact';
 
 const App: FC = () => (
-	<div className="app-grid">
+	<Container>
 		<Router>
 			<div className="header mb-2">
 				<h3 className="my-auto mr-3">Chess App</h3>
@@ -51,7 +52,7 @@ const App: FC = () => (
 				</Switch>
 			</div>
 		</Router>
-	</div>
+	</Container>
 );
 
 export default App;
