@@ -1,39 +1,40 @@
 import { FC, useState, useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Row from 'react-bootstrap/Row';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import SelectGame from './SelectGame'
 import env from '../env/env';
-import {
-	Modal,
-	ModalOpenButton,
-	ModalHeader,
-	ModalTitle,
-	ModalBody,
-	ModalFooter,
-	ModalCloseButton
-} from "./Modal";
+
 
 const Home: FC = () => {
 	const [gameId, setGameId] = useState('');
 	const [color, setColor] = useState('');
 	const history = useHistory();
 	const [copyText, setCopyText] = useState('Copy Link');
+	const [showModal, setShowModal] = useState(false);
 
-	function handleGoToGame() {
+
+	const handleGoToGame = ()=> {
 		history.push(`/game/${gameId}`);
-	}
+	};
 
-	function handleCloseModal() {
+	
+	const handleShow = () => setShowModal(true);
+	const handleClose = ()=> {
+		setShowModal(false);
 		setCopyText('Copy Link');
 		setColor('');
 		setGameId('');
-	}
+	};
 
-	function handleCopyLink() {
+	const handleCopyLink = ()=> {
 		navigator.clipboard.writeText(`${env.siteURL}/game/${gameId}`)
-			.then(() => setCopyText('Coppied...'));
-	}
+			.then(() => setCopyText('Copied...'));
+	};
 
 	useEffect(() => {
 		if (color) {
@@ -47,72 +48,67 @@ const Home: FC = () => {
 
 	return (
 		<>
-			<div className="container">
-				<div className="row">
-					<ModalOpenButton
-						modal-id="newGameModal"
-						className="btn btn-primary">
-						New Game
-					</ModalOpenButton>
-				</div>
-				<div className="row mt-4">
-					<SelectGame />
-				</div>
-			</div>
+			<Row>
+				<Button variant="primary" onClick={handleShow}>
+					New Game
+				</Button>
+			</Row>
+			<Row className="mt-4">
+				<SelectGame />
+			</Row>
 
-			<Modal id="newGameModal">
-				<ModalHeader>
-					<ModalTitle>
+			<Modal show={showModal} onHide={handleClose} id="newGameModal">
+				<Modal.Header>
+					<Modal.Title>
 						{!color ?
 							'Choose a color'
 							: gameId ?
 								'Game Created'
 								: 'Creating Game...'}
-					</ModalTitle>
-				</ModalHeader>
-				<ModalBody>
+					</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
 					{!color ?
-						<div className="btn-group">
-							<button className="btn btn-primary"
+						<ButtonGroup>
+							<Button variant="primary"
 								onClick={() => setColor('white')}>
 								White
-							</button>
-							<button className="btn btn-secondary"
+							</Button>
+							<Button variant="secondary"
 								onClick={() => setColor('black')}>
 								Black
-							</button>
-							<button className="btn btn-info"
+							</Button>
+							<Button variant="primary"
 								onClick={() => setColor('random')}>
 								Random
-							</button>
-						</div>
+							</Button>
+						</ButtonGroup>
 						: gameId ?
-							<div className="container">
-								<div className="row my-2">
+							<div className="ml-2">
+								<Row className="my-2">
 									Send this URL to a friend: {`${env.siteURL}/game/${gameId}`}
-								</div>
-								<div className="row my-2 btn-group">
-									<button className="btn btn-secondary"
-										onClick={handleCopyLink}>
-										{copyText}
-									</button>
-									<ModalCloseButton
-										className="btn btn-primary"
-										onClick={handleGoToGame}>
-										Go to game
-								</ModalCloseButton>
-								</div>
+								</Row>
+								<Row className="my-2">
+									<ButtonGroup>
+										<Button variant="primary"
+											onClick={handleCopyLink}>
+											{copyText}
+										</Button>
+										<Button variant="primary"
+											onClick={handleGoToGame}>
+											Go to game
+										</Button>
+									</ButtonGroup>
+								</Row>
 							</div>
 							: <p>Generating new game...</p>
 					}
-				</ModalBody>
-				<ModalFooter>
-					<ModalCloseButton
-						className="float-right btn btn-danger"
-						onClick={handleCloseModal}>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="danger" onClick={handleClose}>
 						Close
-				</ModalCloseButton>
-				</ModalFooter>
+					</Button>
+				</Modal.Footer>
 			</Modal>
 		</>
 	);
