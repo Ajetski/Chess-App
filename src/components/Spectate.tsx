@@ -3,6 +3,8 @@ import { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ChessInstance } from 'chess.js';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import env from '../env/env';
 import { pgnToChess } from '../utils';
@@ -57,19 +59,19 @@ const Spectate: FC<SpecateProps> = ({ dispatch, chess }) => {
     }, []);
 
     return (
-        <>
-            <div className="col-xl-8 col-12">
+        <Row>
+            <Col xl={8} xs={12}>
                 <div className="mx-auto" style={{ width: 'fit-content' }}>
                     <Board spectateMode={true} />
                     <BoardSettings />
                 </div>
-            </div>
-            <div className="col-xl-4 mt-3">
+            </Col>
+            <Col xl={4} className="mt-3">
                 <Evaluation />
                 <GameHistory />
                 <GameControl />
-            </div>
-        </>
+            </Col>
+        </Row>
     );
 };
 
