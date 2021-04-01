@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Button from 'react-bootstrap/Button';
 import { useState, useEffect, FC } from 'react';
 import { connect } from 'react-redux';
 
@@ -22,19 +23,19 @@ const Evaluation: FC<EvaluaitonProps> = ({ engine, chess }) => {
 	}, [maxDepth]);
 
 	return (
-		<div>
+		<>
 			<div>{`Analysis: Depth ${engine.depth}/${maxDepth}`} {
 				engine.depth === maxDepth &&
-				<button
-					className="btn btn-info"
+				<Button
+					variant="info"
 					onClick={() => setMaxDepth(maxDepth + 5)}>
 					+
-				</button>
+				</Button>
 			}
 			</div>
-			<div>Best Move: {engine.bestmove}</div>
-			<div>Evaluaiton: {engine.evaluation}</div>
-		</div>
+			<p>Best Move: {engine.bestmove}</p>
+			<p>Evaluaiton: {engine.evaluation}</p>
+		</>
 	);
 }
 
