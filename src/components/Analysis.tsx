@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 import Board from './Board';
 import BoardSettings from './BoardSettings';
@@ -7,19 +9,19 @@ import GameControl from './GameControl';
 import GameHistory from './GameHistory';
 
 const Analysis: FC = () => (
-	<>
-		<div className="col-xl-8 col-12">
+	<Row>
+		<Col xs={12} xl={8}>
 			<div className="mx-auto" style={{ width: 'fit-content' }}>
 				<Board analysisMode={true} />
 				<BoardSettings />
 			</div>
-		</div>
-		<div className="col-xl-4 mt-3">
+		</Col>
+		<Col xl={4} className="mt-3">
 			<Evaluation />
 			<GameHistory />
 			<GameControl />
-		</div>
-	</>
+		</Col>
+	</Row>
 );
 
 export default Analysis;
