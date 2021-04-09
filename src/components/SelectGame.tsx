@@ -13,10 +13,7 @@ const SelectGame: FC = () => {
     useEffect(() => {
         axios.get(`${env.apiUrl}/game`).then(res => {
             setRows(res.data);
-        })
-        return () => {
-            // clean up
-        }
+        });
     }, [])
 
     return (

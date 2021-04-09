@@ -17,14 +17,14 @@ interface EvaluaitonProps {
 const Evaluation: FC<EvaluaitonProps> = ({ engine, chess }) => {
 	const [maxDepth, setMaxDepth] = useState(engine.maxDepth);
 
-	useEffect(() => {
-		setMaxDepth(engine.maxDepth);
-	}, [chess]);
+	// useEffect(() => {
+	// 	setMaxDepth(engine.maxDepth);
+	// }, [chess]);
 
-	useEffect(() => {
-		if (maxDepth !== engine.maxDepth)
-			engine.engine.postMessage(`go depth ${engine.depth + 5}`);
-	}, [maxDepth]);
+	// useEffect(() => {
+	// 	if (maxDepth !== engine.maxDepth)
+	// 		engine.engine.postMessage(`go depth ${engine.depth + 5}`);
+	// }, [maxDepth]);
 
 	return (
 		<>

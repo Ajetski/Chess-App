@@ -30,9 +30,7 @@ export const useOnlineChess = (id: number): [ChessValues, UpdateOnlineChess] => 
 			ws.onmessage = ({ data }) => {
 				const action = JSON.parse(data);
 				if (action.type === 'game/connect') {
-					if (action.orientation === orientation)
-						updateChess.flip();
-					updateChess.setPgn(action.pgn);
+					updateChess.setOrientation(action.pgn);
 				} else if (action.type === 'game/move') {
 					updateChess.setPgn(action.pgn);
 				}
@@ -41,7 +39,7 @@ export const useOnlineChess = (id: number): [ChessValues, UpdateOnlineChess] => 
 		return () => {
 			ws.close();
 		}
-	}, [ws]);
+	}, [ws, id, updateChess]);
 
 	return [{ chess, orientation }, {
 		move: m => {
