@@ -4,16 +4,15 @@ import { Provider } from 'react-redux';
 import 'jsdom-worker';
 
 import GameHistory from '../components/GameHistory';
-import configureStore from '../store/configureStore'
-
-const store = configureStore();
+import { useChess } from '../hooks/useChess';
 
 
-const TestGameHistory = () => (
-	<Provider store={store}>
-		<GameHistory />
-	</Provider>
-);
+const TestGameHistory = () => {
+	const [{ chess }] = useChess();
+	return (
+		<GameHistory chess={chess} />
+	);
+}
 
 it('renders without crashing', () => {
 	const div = document.createElement('div');

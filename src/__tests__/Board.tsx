@@ -1,19 +1,17 @@
-import React from 'react';
+import { FC } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import 'jsdom-worker';
 
 import Board from '../components/Board';
-import configureStore from '../store/configureStore'
+import { useChess } from '../hooks/useChess';
 
-const store = configureStore();
+const TestBoard: FC = () => {
 
-
-const TestBoard = () => (
-	<Provider store={store}>
-		<Board />
-	</Provider>
-);
+	const [{ chess, orientation }, updateChess] = useChess();
+	return (
+		<Board chess={chess} orientation={orientation} updateChess={updateChess} />
+	);
+};
 
 it('renders without crashing', () => {
 	const div = document.createElement('div');

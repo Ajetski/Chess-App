@@ -1,19 +1,18 @@
-import React from 'react';
+import { FC } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import 'jsdom-worker';
 
 import GameControl from '../components/GameControl';
-import configureStore from '../store/configureStore'
-
-const store = configureStore();
+import { useChess } from '../hooks/useChess';
 
 
-const TestGameControl = () => (
-	<Provider store={store}>
-		<GameControl />
-	</Provider>
-);
+const TestGameControl: FC = () => {
+	const [, updateChess] = useChess();
+
+	return (
+		<GameControl updateChess={updateChess} />
+	);
+};
 
 it('renders without crashing', () => {
 	const div = document.createElement('div');

@@ -1,18 +1,23 @@
-import React from 'react';
+import { FC } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import 'jsdom-worker';
 
 import Evaluation from '../components/Evaluation';
-import configureStore from '../store/configureStore'
+import { useChess } from '../hooks/useChess';
 
-const store = configureStore();
+const TestEvaluation: FC = () => {
+	const [{chess, orientation}, updateChess] = useChess();
 
-const TestEvaluation = () => (
-	<Provider store={store}>
-		<Evaluation />
-	</Provider>
-);
+	return (
+		<Evaluation chess={chess} engine={{
+			maxDepth: 0,
+			bestmove: '',
+			evaluation: '',
+			depth: 0,
+			engine: null as unknown as Worker
+		}} />
+	);
+};
 
 it('renders without crashing', () => {
 	const div = document.createElement('div');
