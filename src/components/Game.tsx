@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { ChessInstance } from 'chess.js';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
@@ -10,12 +8,7 @@ import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
 import { useOnlineChess } from '../hooks/useOnlineChess';
 
-interface GameProps {
-	dispatch: (arg0: any) => void,
-	chess: ChessInstance
-};
-
-const Game: FC<GameProps> = () => {
+const Game: FC = () => {
 	const { gameId } = useParams<{ gameId: string }>();
 	const [{chess, orientation}, updateChess] = useOnlineChess(parseInt(gameId));
 
