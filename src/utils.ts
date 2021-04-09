@@ -1,7 +1,7 @@
 import { ChessInstance, Square } from 'chess.js';
 import { Api } from 'chessground/api';
 
-const Chess = require('chess.js');
+const { Chess } = require('chess.js');
 
 export function toDests(chess: ChessInstance) {
 	const dests = new Map();
@@ -18,7 +18,7 @@ export function toColor(chess: ChessInstance): 'white' | 'black' {
 }
 
 export function newChess(pgn?: string): ChessInstance {
-	if (!pgn) return Chess();
+	if (!pgn) return new Chess();
 	const c: ChessInstance = new Chess();
 	c.load_pgn(pgn);
 	return c;
