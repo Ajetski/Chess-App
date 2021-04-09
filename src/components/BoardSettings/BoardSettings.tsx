@@ -24,7 +24,7 @@ const Theme: FC<ThemeProps> = (props) => {
 	);
 }
 
-export default function BoardSettings() {
+const BoardSettings: FC = () => {
 	const [boardTheme, setBoardTheme] = useState(localStorage.getItem('board-theme') || 'blue2');
 	const [pieceTheme, setPieceTheme] = useState(localStorage.getItem('piece-theme') || 'merida');
 	const [showModal, setShowModal] = useState(false);
@@ -110,3 +110,5 @@ export default function BoardSettings() {
 		</div>
 	);
 }
+
+export default BoardSettings;

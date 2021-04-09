@@ -1,13 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Button from 'react-bootstrap/Button';
+import { ChessInstance } from 'chess.js';
 import { useState, useEffect, FC } from 'react';
-import { connect } from 'react-redux';
-
-import { Store, ChessStore, EngineStore } from '../store/types';
 
 interface EvaluaitonProps {
-	chess: ChessStore,
-	engine: EngineStore
+	engine: {
+		maxDepth: number,
+		depth: number,
+		engine: Worker,
+		bestmove: string,
+		evaluation: string
+	},
+	chess: ChessInstance
 };
 
 const Evaluation: FC<EvaluaitonProps> = ({ engine, chess }) => {
@@ -39,9 +43,4 @@ const Evaluation: FC<EvaluaitonProps> = ({ engine, chess }) => {
 	);
 }
 
-const mapStateToProps = (state: Store): EvaluaitonProps => ({
-	chess: state.chess,
-	engine: state.engine
-});
-
-export default connect(mapStateToProps)(Evaluation);
+export default Evaluation;

@@ -1,53 +1,31 @@
 import { FC } from 'react';
-import { connect } from 'react-redux';
-import { ChessInstance } from 'chess.js';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 
-import { setChess, setOrientation } from '../actions/chessActions';
-import { copyChess } from '../utils';
-import { Store } from '../store/types';
+import { UpdateChess } from '../hooks/useChess';
 
 interface GameControlProps {
-	chess: ChessInstance,
-	orientation: 'white' | 'black',
-	dispatch: (arg0: any) => void
+	updateChess: UpdateChess
 };
 
-const GameControl: FC<GameControlProps> = ({ chess, orientation, dispatch }) => (
+const GameControl: FC<GameControlProps> = ({ updateChess }) => (
 	<ButtonGroup className="mt-3">
 		<Button type="button"
 			variant="secondary"
-			onClick={() => {
-				chess.undo();
-				const copy = copyChess(chess);
-				dispatch(setChess({ chess: copy }));
-			}}>
+			onClick={updateChess.undo}>
 			Takeback
 		</Button>
 		<Button type="button"
 			variant="danger"
-			onClick={() => {
-				chess.reset();
-				const copy = copyChess(chess);
-				dispatch(setChess({ chess: copy }));
-			}}>
+			onClick={updateChess.reset}>
 			Reset
 		</Button>
 		<Button type="button"
 			variant="info"
-			onClick={() => {
-				dispatch(setOrientation({ orientation: orientation === 'white' ? 'black' : 'white' }));
-			}}>
+			onClick={updateChess.flip}>
 			Flip
 		</Button>
 	</ButtonGroup>
 );
 
-const mapStateToProps = (state: Store, ownProps: any) => ({
-	...ownProps,
-	chess: state.chess.chess,
-	orientation: state.chess.orientation
-});
-
-export default connect(mapStateToProps)(GameControl);
+export default GameControl;
