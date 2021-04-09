@@ -1,40 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
 import { ChessInstance, ShortMove } from 'chess.js';
 import useSound from 'use-sound';
 
-import { toDests, toColor, copyChess } from '../../utils';
-import { setChess as setChessRedux } from '../../actions/chessActions';
-import { updateEval } from '../../actions/engineActions';
+import { toDests, toColor } from '../../utils';
 import './styles/chessground.css';
 import './styles/theme.scss';
 import { Square } from 'chess.js';
 import { Config } from 'chessground/config';
 import { Key, SetPremoveMetadata } from 'chessground/types';
-import { Store } from '../../store/types';
+import { UpdateChess } from '../../hooks/useChess';
 
 import MoveSound from './sounds/Move.ogg';
 import CaptureSound from './sounds/Capture.ogg';
 import GameFinishedSound from './sounds/GenericNotify.ogg';
+import { UpdateOnlineChess } from '../../hooks/useOnlineChess';
 
 interface BoardProps {
 	chess: ChessInstance,
+	updateChess: UpdateChess | UpdateOnlineChess,
 	orientation: 'white' | 'black',
-	width: string,
-	height: string,
-	spectateMode: boolean,
-	analysisMode: boolean,
-	maxDepth: number,
-	engine: Worker,
-	dispatch: (arg0: any) => void
+	width?: string,
+	height?: string,
+	spectateMode?: boolean,
+	analysisMode?: boolean,
 };
 
 
-const Board: FC<BoardProps> = (props) => {
-	const [chess, setChess] = useState(props.chess);
+const Board: FC<BoardProps> = ({ chess, updateChess, orientation, width, height, spectateMode, analysisMode }) => {
 	const [cg, setCg] = useState<Api>();
 	const [premove, setPremove] = useState<ShortMove>();
 	const [boardRef, setBoardRef] = useState<HTMLDivElement>();
@@ -43,19 +38,17 @@ const Board: FC<BoardProps> = (props) => {
 	const [playGameFinishedSound] = useSound(GameFinishedSound);
 
 	const config: Config = {
-		orientation: props.orientation,
+		orientation: orientation,
 		turnColor: toColor(chess),
 		lastMove: chess.history({ verbose: true }).slice(-1).map(move => [move.from, move.to])[0],
-		viewOnly: props.spectateMode,
+		viewOnly: spectateMode,
 		movable: {
-			color: props.analysisMode ? toColor(chess) : props.orientation,
+			color: analysisMode ? toColor(chess) : orientation,
 			free: false,
 			dests: toDests(chess),
 			events: {
 				after: (orig: Key, dest: Key, metadata: SetPremoveMetadata | undefined) => {
-					chess.move({ from: orig as Square, to: dest as Square });
-					const copy = copyChess(chess);
-					setChess(copy);
+					updateChess.move({ from: orig as Square, to: dest as Square });
 				}
 			}
 		},
@@ -91,48 +84,12 @@ const Board: FC<BoardProps> = (props) => {
 		}
 
 		if (premove && cg) {
-			props.chess.move(premove);
+			updateChess.move(premove);
 			cg.playPremove();
 			setPremove(undefined);
-			setChess(copyChess(props.chess));
-		}
-		else if (chess.pgn() !== props.chess.pgn()) {
-			setChess(copyChess(props.chess));
 		}
 
-		props.engine.postMessage('stop');
-		props.engine.postMessage(`position fen ${chess.fen()}`);
-		props.engine.postMessage(`go depth ${props.maxDepth}`);
-		// props.engine.postMessage(`go movetime 5000`);
-
-		props.engine.onmessage = function (event) {
-			const data = (event.data ? event.data : event).split(' ');
-			if (data[0] === 'info') {
-				const startLineIdx = data.indexOf('pv') + 1;
-				const startEvalIdx = data.indexOf('score') + 1;
-				const colorMultiplier = chess.turn() === 'w' ? 1 : -1;
-				props.dispatch(updateEval({
-					depth: parseInt(data[2]),
-					evaluation: data[startEvalIdx] === 'cp'
-						? `${colorMultiplier * data[startEvalIdx + 1] / 100}` as string
-						: `#${colorMultiplier * data[startEvalIdx + 1]}` as string,
-					bestmove: data[startLineIdx],
-					line: data.slice(startLineIdx, data.length - 3),
-				}));
-			}
-		};
-	}, [props.chess]);
-
-	useEffect(() => {
-		if (cg) {
-			cg.set(config);
-		}
-	}, [props.orientation]);
-
-	useEffect(() => {
-		if (cg) {
-			cg.set(config);
-		}
+		
 
 		if (chess && chess.history().length >= 1) {
 			if (chess.game_over()) {
@@ -144,17 +101,21 @@ const Board: FC<BoardProps> = (props) => {
 				playMoveSound();
 			}
 		}
-
-		props.dispatch(setChessRedux({ chess }));
 	}, [chess]);
+
+	useEffect(() => {
+		if (cg) {
+			cg.set(config);
+		}
+	}, [orientation]);
 
 	return (
 		<div ref={(el) => {
 			if (el) setBoardRef(el);
 		}}
 			style={{
-				width: props.width,
-				height: props.height
+				width: width,
+				height: height
 			}}>
 		</div>
 	);
@@ -162,19 +123,9 @@ const Board: FC<BoardProps> = (props) => {
 
 Board.defaultProps = {
 	width: '720px',
-	height: '720px'
+	height: '720px',
+	spectateMode: false,
+	analysisMode: false
 };
 
-const mapStateToProps = (state: Store, ownProps: any) => {
-	return {
-		chess: state.chess.chess,
-		orientation: state.chess.orientation,
-		engine: state.engine.engine,
-		maxDepth: state.engine.maxDepth,
-		analysisMode: false,
-		spectateMode: false,
-		...ownProps
-	};
-}
-
-export default connect(mapStateToProps)(Board);
+export default Board;
