@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
-import { connect } from 'react-redux';
+
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
-import { ChessInstance } from 'chess.js';
 
-import { Store } from '../store/types';
+import { ChessInstance } from 'chess.js';
 
 interface GameHistoryProps { chess: ChessInstance };
 
@@ -25,6 +24,4 @@ const GameHistory: FC<GameHistoryProps> = ({ chess }) => (
 	</Card>
 );
 
-const mapStateToProps = (state: Store): GameHistoryProps => ({ chess: state.chess.chess });
-
-export default connect(mapStateToProps)(GameHistory);
+export default GameHistory;
