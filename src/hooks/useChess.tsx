@@ -22,6 +22,20 @@ export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
 	const [chess, setChess] = useState(newChess(pgn));
 	const [orientation, setOrientation] = useState<'white' | 'black'>('white')
 
+	const refreshPieceTheme = () => {
+		// push to async task queue to wait for setOrientation updates to be done
+		setTimeout(() => {
+			const theme = localStorage.getItem('piece-theme') as string;
+			const pieces = document.getElementsByTagName('piece');
+			for (let i = 0; i < pieces.length; i++) {
+				const piece = pieces.item(i);
+				if (piece) {
+					piece.classList.add(theme);
+				}
+			}
+		});
+	}
+
 	return [{ chess, orientation }, {
 		move: m => {
 			chess.move(m);
@@ -40,9 +54,11 @@ export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
 		},
 		flip: () => {
 			setOrientation(orientation === 'white' ? 'black' : 'white');
+			refreshPieceTheme();
 		},
 		setOrientation: o => {
 			setOrientation(o);
+			refreshPieceTheme();
 		}
 	}];
 }
