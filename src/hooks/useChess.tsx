@@ -1,5 +1,5 @@
 import { ChessInstance, ShortMove } from 'chess.js';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { newChess, pgnToChess } from '../utils';
 
@@ -13,17 +13,14 @@ export type UpdateChess = {
 	undo: VoidFunction,
 	reset: VoidFunction,
 	setPgn: (pgn: string) => void,
-	flip: VoidFunction
+	flip: VoidFunction,
+	setOrientation: (o: 'black' | 'white') => void
 };
 
 
 export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
 	const [chess, setChess] = useState(newChess(pgn));
 	const [orientation, setOrientation] = useState<'white' | 'black'>('white')
-
-	useEffect(() => {
-		console.log(chess.pgn());
-	}, [chess])
 
 	return [{ chess, orientation }, {
 		move: m => {
@@ -43,6 +40,9 @@ export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
 		},
 		flip: () => {
 			setOrientation(orientation === 'white' ? 'black' : 'white');
+		},
+		setOrientation: o => {
+			setOrientation(o);
 		}
 	}];
 }
