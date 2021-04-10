@@ -3,7 +3,6 @@ import { FC, useState, useEffect } from 'react';
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
 import { ChessInstance, ShortMove } from 'chess.js';
-import useSound from 'use-sound';
 
 import { toDests, toColor } from '../../utils';
 import './styles/chessground.css';
@@ -13,9 +12,6 @@ import { Config } from 'chessground/config';
 import { Key, SetPremoveMetadata } from 'chessground/types';
 import { UpdateChess } from '../../hooks/useChess';
 
-import MoveSound from './sounds/Move.ogg';
-import CaptureSound from './sounds/Capture.ogg';
-import GameFinishedSound from './sounds/GenericNotify.ogg';
 import { UpdateOnlineChess } from '../../hooks/useOnlineChess';
 
 interface BoardProps {
@@ -33,9 +29,7 @@ const Board: FC<BoardProps> = ({ chess, updateChess, orientation, width, height,
 	const [cg, setCg] = useState<Api>();
 	const [premove, setPremove] = useState<ShortMove>();
 	const [boardRef, setBoardRef] = useState<HTMLDivElement>();
-	const [playMoveSound] = useSound(MoveSound);
-	const [playCaptureSound] = useSound(CaptureSound);
-	const [playGameFinishedSound] = useSound(GameFinishedSound);
+	
 
 	const config: Config = {
 		orientation: orientation,
@@ -87,19 +81,6 @@ const Board: FC<BoardProps> = ({ chess, updateChess, orientation, width, height,
 			updateChess.move(premove);
 			cg.playPremove();
 			setPremove(undefined);
-		}
-
-		
-
-		if (chess && chess.history().length >= 1) {
-			if (chess.game_over()) {
-				playGameFinishedSound();
-			}
-			else if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
-				playCaptureSound();
-			} else {
-				playMoveSound();
-			}
 		}
 	}, [chess]);
 
