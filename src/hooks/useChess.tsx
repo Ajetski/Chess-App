@@ -1,7 +1,11 @@
 import { ChessInstance, ShortMove } from 'chess.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useSound from 'use-sound';
 
 import { newChess, pgnToChess } from '../utils';
+import MoveSound from '../assets/sounds/Move.ogg';
+import CaptureSound from '../assets/sounds/Capture.ogg';
+import GameFinishedSound from '../assets/sounds/GenericNotify.ogg';
 
 export type ChessValues = {
 	chess: ChessInstance,
@@ -18,12 +22,15 @@ export type UpdateChess = {
 };
 
 
-export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
+export const useChess = (pgn?: string, analysis = false): [ ChessValues, UpdateChess ] => {
 	const [chess, setChess] = useState(newChess(pgn));
 	const [orientation, setOrientation] = useState<'white' | 'black'>('white')
+	const [playMoveSound] = useSound(MoveSound);
+	const [playCaptureSound] = useSound(CaptureSound);
+	const [playGameFinishedSound] = useSound(GameFinishedSound);
 
-	const refreshPieceTheme = () => {
-		// push to async task queue to wait for setOrientation updates to be done
+	useEffect(() => {
+		// push to async task queue to wait for useState setterfn updates to be done
 		setTimeout(() => {
 			const theme = localStorage.getItem('piece-theme') as string;
 			const pieces = document.getElementsByTagName('piece');
@@ -34,12 +41,22 @@ export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
 				}
 			}
 		});
-	}
+	}, [chess, orientation]);
 
 	return [{ chess, orientation }, {
 		move: m => {
 			chess.move(m);
 			setChess(pgnToChess(chess.pgn()));
+			if (chess && chess.history().length >= 1) {
+				if (chess.game_over()) {
+					playGameFinishedSound();
+				}
+				else if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
+					playCaptureSound();
+				} else {
+					playMoveSound();
+				}
+			}
 		},
 		undo: () => {
 			chess.undo();
@@ -51,14 +68,13 @@ export const useChess = (pgn?: string): [ ChessValues, UpdateChess ] => {
 		},
 		setPgn: pgn => {
 			setChess(pgnToChess(pgn));
+			
 		},
 		flip: () => {
 			setOrientation(orientation === 'white' ? 'black' : 'white');
-			refreshPieceTheme();
 		},
 		setOrientation: o => {
 			setOrientation(o);
-			refreshPieceTheme();
 		}
 	}];
 }
