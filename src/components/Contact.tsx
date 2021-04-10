@@ -36,7 +36,6 @@ const Contact: FC = () => {
                     Leave a message to the developers with your suggestions, comments or bug reports.
                 </Form.Label>
                 <Form.Control
-                    id="contactBox" 
                     as="textarea"
                     rows={3}
                     value={enteredText} 
