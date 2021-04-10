@@ -21,7 +21,6 @@ export type UpdateChess = {
 	setOrientation: (o: 'black' | 'white') => void
 };
 
-
 export const useChess = (pgn?: string, analysis = false): [ ChessValues, UpdateChess ] => {
 	const [chess, setChess] = useState(newChess(pgn));
 	const [orientation, setOrientation] = useState<'white' | 'black'>('white')
@@ -47,15 +46,13 @@ export const useChess = (pgn?: string, analysis = false): [ ChessValues, UpdateC
 		move: m => {
 			chess.move(m);
 			setChess(pgnToChess(chess.pgn()));
-			if (chess && chess.history().length >= 1) {
-				if (chess.game_over()) {
-					playGameFinishedSound();
-				}
-				else if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
-					playCaptureSound();
-				} else {
-					playMoveSound();
-				}
+			if (chess.game_over()) {
+				playGameFinishedSound();
+			}
+			else if (chess.in_check() || chess.history().slice(-1)[0].indexOf('x') !== -1) {
+				playCaptureSound();
+			} else {
+				playMoveSound();
 			}
 		},
 		undo: () => {
