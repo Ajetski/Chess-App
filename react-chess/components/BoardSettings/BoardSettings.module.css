@@ -1,0 +1,11 @@
+ul.board__settings {
+	list-style-type: none;
+}
+
+li.board__settings {
+	margin-top: 1rem;
+}
+
+.settingsBox {
+	width: fit-content;
+}
