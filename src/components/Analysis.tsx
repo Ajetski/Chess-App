@@ -23,7 +23,7 @@ const Analysis: FC = () => {
 			<Col xl={4} className="mt-3">
 				{/* <Evaluation /> */}
 				<GameHistory chess={chess} />
-				<GameControl updateChess={updateChess} />
+				<GameControl type='Analysis' updateChess={updateChess} />
 			</Col>
 		</Row>
 	);

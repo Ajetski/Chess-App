@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Board from './Board';
 import BoardSettings from './BoardSettings';
 import GameHistory from './GameHistory';
+import GameControl from './GameControl';
 import { useOnlineChess } from '../hooks/useOnlineChess';
 
 const Game: FC = () => {
@@ -24,6 +25,7 @@ const Game: FC = () => {
 			</Col>
 			<Col xs xl={4} className="mt-3">
 				<GameHistory chess={chess} />
+				<GameControl type='Game' updateChess={updateChess} />
 			</Col>
 		</Row>
 	);
