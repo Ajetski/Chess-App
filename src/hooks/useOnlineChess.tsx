@@ -31,7 +31,7 @@ export const useOnlineChess = (id: number): [ChessValues, UpdateOnlineChess] => 
 			ws.onmessage = ({ data }) => {
 				const action = JSON.parse(data);
 				if (action.type === 'game/connect') {
-					updateChess.setOrientation(action.pgn);
+					updateChess.setOrientation(action.orientation);
 				} else if (action.type === 'game/move') {
 					updateChess.setPgn(action.pgn);
 				}
