@@ -23,7 +23,7 @@ export type UpdateChess = {
 
 export const useChess = (pgn?: string, analysis = false): [ ChessValues, UpdateChess ] => {
 	const [chess, setChess] = useState(newChess(pgn));
-	const [orientation, setOrientation] = useState<'white' | 'black'>('white')
+	const [orientation, setOrientation] = useState<'white' | 'black'>('white');
 	const [playMoveSound] = useSound(MoveSound);
 	const [playCaptureSound] = useSound(CaptureSound);
 	const [playGameFinishedSound] = useSound(GameFinishedSound);
