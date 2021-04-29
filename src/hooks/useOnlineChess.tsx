@@ -7,6 +7,7 @@ import { ShortMove } from 'chess.js';
 
 export type UpdateOnlineChess = {
 	move: (m: string | ShortMove) => void,
+	flip: VoidFunction,
 };
 
 export const useOnlineChess = (id: number): [ChessValues, UpdateOnlineChess] => {
@@ -47,6 +48,9 @@ export const useOnlineChess = (id: number): [ChessValues, UpdateOnlineChess] => 
 				updateChess.move(m);
 				ws.send(makeMove({ id, move: chess.history().splice(-1)[0] }));
 			}
+		},
+		flip: () => {
+			updateChess.flip();
 		},
 		// offerTakeback: () => {
 
